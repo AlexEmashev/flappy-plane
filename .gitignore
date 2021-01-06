@@ -1,0 +1,14 @@
+# IntelliJ IDEA
+.idea/
+
+# Microsoft VSCode
+.vscode/
+
+# Node dependency directory
+node_modules/
+
+*.log
+
+dist/
+
+refs/
