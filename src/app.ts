@@ -2,6 +2,7 @@ import settings from './settings';
 import gameResources from './resources';
 import { BottomClouds } from './bottom-clouds';
 import {Plane} from './plane';
+import {Clouds} from './clouds';
 /**
  * Initializes the game
  */
@@ -26,12 +27,14 @@ function addCanvas(): CanvasRenderingContext2D {
 function setEventLoop(context: CanvasRenderingContext2D) {
   const bottomClouds = new BottomClouds();
   const plane = new Plane();
+  const clouds = new Clouds();
+
   setInterval(() => {
     drawWorld(context);
-    // drawCloud1(context);
+    bottomClouds.drawClouds(context);
+    clouds.draw(context);
     drawTitle(context);
     drawStartButton(context);
-    bottomClouds.drawClouds(context);
     plane.draw(context);
   }, settings.gameRefreshRate);
 }
@@ -42,10 +45,6 @@ function drawWorld(context: CanvasRenderingContext2D) {
   canvasGradient.addColorStop(1, settings.worldBackground.bottom);
   context.fillStyle = canvasGradient;
   context.fillRect(0,0, settings.worldWidth, settings.worldHeight);
-}
-
-function drawCloud1(context: CanvasRenderingContext2D) {
-  context.drawImage(gameResources.spriteCloud1, 0, 0, 40, 30)
 }
 
 function drawTitle(context: CanvasRenderingContext2D) {

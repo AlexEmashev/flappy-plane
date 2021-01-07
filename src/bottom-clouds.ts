@@ -1,16 +1,6 @@
 import settings from './settings';
 import gameResourcesService from './resources';
-
-/**
- * Describes cloud tile element
- */
-interface ICloudsSprite {
-  sprite: HTMLImageElement,
-  x: number,
-  y: number,
-  width: number,
-  height: number
-}
+import { ISprite } from './models';
 
 /**
  * Draws bottom clouds line
@@ -20,7 +10,7 @@ export class BottomClouds {
   private cloudsHeight = 100;
   private cloudsWidth = 250;
   private cloudsSpeed = 2;
-  private cloudTiles: ICloudsSprite[] = [];
+  private cloudTiles: ISprite[] = [];
 
   constructor() {
     let currentSpritePosition = 0;
@@ -50,7 +40,7 @@ export class BottomClouds {
     // all sprites to be within the screen boundaries
 
     // Remove off screen tile
-    this.cloudTiles.filter(cloud => cloud.x + cloud.width >= 0);
+    this.cloudTiles = this.cloudTiles.filter(cloud => cloud.x + cloud.width >= 0);
 
     // Add tile to be drawn
     const lastCloud = this.cloudTiles[this.cloudTiles.length - 1];

@@ -51,6 +51,16 @@ class GameResourcesService {
     return this.cloud1;
   }
 
+  private cloud2: HTMLImageElement;
+  get spriteCloud2(): HTMLImageElement {
+    if (!this.cloud2) {
+      this.cloud2 = new Image();
+      this.cloud2.src = settings.sprites.cloud2
+    }
+
+    return this.cloud1;
+  }
+
   private constructor() {
     console.log('🔰 GameResourcesService initialized!');
   }
