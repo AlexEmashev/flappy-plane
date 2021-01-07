@@ -1,7 +1,7 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -32,7 +32,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
-    new WorkboxPlugin.GenerateSW()
+    new CopyPlugin({
+      patterns: [
+        {
+          from: './assets',
+          to: 'assets'
+        }
+      ]
+    })
   ],
   output: {
     filename: '[name].[contenthash].js',

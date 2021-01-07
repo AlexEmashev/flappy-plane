@@ -1,3 +1,16 @@
+// Main app styles
+
+/* COLORS */
+$deepBlue: #2c303a;
+
 body {
-  background-color: pink;
+  background-color: $deepBlue;
+}
+
+.game-window {
+  margin: 0;
+}
+
+#game {
+  text-align:center;
 }
