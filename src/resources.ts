@@ -58,7 +58,7 @@ class GameResourcesService {
       this.cloud2.src = settings.sprites.cloud2
     }
 
-    return this.cloud1;
+    return this.cloud2;
   }
 
   private constructor() {

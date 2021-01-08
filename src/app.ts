@@ -64,3 +64,14 @@ function drawStartButton(context: CanvasRenderingContext2D) {
     150, 35
   );
 }
+
+/**
+ * Function for debug purposes to draw a sprite and adjust sizes.
+ * @param context
+ */
+function debugSprite(context: CanvasRenderingContext2D) {
+  context.drawImage(gameResources.spriteCloud2,
+    0, 0,
+    50, 30
+  );
+}

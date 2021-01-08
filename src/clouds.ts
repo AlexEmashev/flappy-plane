@@ -9,10 +9,18 @@ interface ICloudSprite extends ISprite {
 
 const CLOUDS_SETTINGS = {
   cloudsCount: 5,
-  speed: 5,
+  speed: 3,
   minSize: 1,
-  maxSize: 5,
-  minCloudHeight: 30 // Minimal height of the cloud from the lower boundary of the canvas
+  maxSize: 7,
+  minCloudHeight: 30, // Minimal height of the cloud from the lower boundary of the canvas
+  cloud1: {
+    width: 40,
+    height: 30
+  },
+  cloud2: {
+    width: 55,
+    height: 30
+  }
 }
 
 export class Clouds {
@@ -23,14 +31,15 @@ export class Clouds {
     const cloud1 = this.getNewCloud();
     const cloud2 = this.getNewCloud();
     const cloud3 = this.getNewCloud();
+    // Set clouds at the random positions at the start
     this.clouds.push(
       {
         ...cloud1,
-        x: randomNumber(0, settings.worldWidth / 3)
+        x: randomNumber(0, settings.worldWidth)
       },
       {
         ...cloud2,
-        x: randomNumber(0, settings.worldWidth / 2)
+        x: randomNumber(0, settings.worldWidth)
       },
       {
         ...cloud3,
@@ -58,6 +67,10 @@ export class Clouds {
     }
   }
 
+  /**
+   * Generates cloud sprite at the random Y position behind right border of the screen
+   * @returns generated sprite with speed set
+   */
   getNewCloud(): ICloudSprite {
     const cloudSpriteNumber = randomNumber(1, 2);
     const yCoordinate = randomNumber(0, settings.worldHeight - CLOUDS_SETTINGS.minCloudHeight);
@@ -67,8 +80,8 @@ export class Clouds {
       sprite: cloudSpriteNumber === 1 ? gameResources.spriteCloud1 : gameResources.spriteCloud2,
       x: settings.worldWidth,
       y: yCoordinate,
-      width: 40 * cloudSize,
-      height: 30 * cloudSize,
+      width: (cloudSpriteNumber === 1 ? CLOUDS_SETTINGS.cloud1.width : CLOUDS_SETTINGS.cloud2.width) * cloudSize,
+      height: (cloudSpriteNumber === 1 ? CLOUDS_SETTINGS.cloud1.height : CLOUDS_SETTINGS.cloud2.height) * cloudSize,
       speed: CLOUDS_SETTINGS.speed * cloudSize
     };
   }
