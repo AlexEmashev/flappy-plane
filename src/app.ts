@@ -32,6 +32,9 @@ function setEventLoop(context: CanvasRenderingContext2D) {
   const pipes = new Pipes();
 
   setInterval(() => {
+    // Check collision
+    pipes.checkCollision(plane.hitbox);
+    // Draw objects
     drawWorld(context);
     bottomClouds.drawClouds(context);
     clouds.draw(context);
