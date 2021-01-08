@@ -3,6 +3,7 @@ import gameResources from './resources';
 import { BottomClouds } from './bottom-clouds';
 import {Plane} from './plane';
 import {Clouds} from './clouds';
+import {Pipes} from './pipes';
 /**
  * Initializes the game
  */
@@ -28,6 +29,7 @@ function setEventLoop(context: CanvasRenderingContext2D) {
   const bottomClouds = new BottomClouds();
   const plane = new Plane();
   const clouds = new Clouds();
+  const pipes = new Pipes();
 
   setInterval(() => {
     drawWorld(context);
@@ -35,6 +37,7 @@ function setEventLoop(context: CanvasRenderingContext2D) {
     clouds.draw(context);
     drawTitle(context);
     drawStartButton(context);
+    pipes.draw(context);
     plane.draw(context);
   }, settings.gameRefreshRate);
 }

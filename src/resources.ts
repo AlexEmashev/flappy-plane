@@ -35,7 +35,7 @@ class GameResourcesService {
   get spriteBottomClouds(): HTMLImageElement {
     if (!this.bottomClouds) {
       this.bottomClouds = new Image();
-      this.bottomClouds.src = settings.sprites.bottomClouds
+      this.bottomClouds.src = settings.sprites.bottomClouds;
     }
 
     return this.bottomClouds;
@@ -45,7 +45,7 @@ class GameResourcesService {
   get spriteCloud1(): HTMLImageElement {
     if (!this.cloud1) {
       this.cloud1 = new Image();
-      this.cloud1.src = settings.sprites.cloud1
+      this.cloud1.src = settings.sprites.cloud1;
     }
 
     return this.cloud1;
@@ -55,10 +55,30 @@ class GameResourcesService {
   get spriteCloud2(): HTMLImageElement {
     if (!this.cloud2) {
       this.cloud2 = new Image();
-      this.cloud2.src = settings.sprites.cloud2
+      this.cloud2.src = settings.sprites.cloud2;
     }
 
     return this.cloud2;
+  }
+
+  private pipeTop: HTMLImageElement;
+  get spritePipeTop(): HTMLImageElement {
+    if (!this.pipeTop) {
+      this.pipeTop = new Image();
+      this.pipeTop.src = settings.sprites.pipeTop;
+    }
+
+    return this.pipeTop;
+  }
+
+  private pipeBottom: HTMLImageElement;
+  get spritePipeBottom(): HTMLImageElement {
+    if (!this.pipeBottom) {
+      this.pipeBottom = new Image();
+      this.pipeBottom.src = settings.sprites.pipeBottom;
+    }
+
+    return this.pipeBottom;
   }
 
   private constructor() {

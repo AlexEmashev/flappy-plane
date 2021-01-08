@@ -13,6 +13,8 @@ export default  {
     cloud2: 'assets/cloud2.svg',
     bottomClouds: 'assets/bottom_clouds.svg',
     titles: 'assets/titles.svg',
-    planes: 'assets/planes_list.svg'
+    planes: 'assets/planes_list.svg',
+    pipeTop: 'assets/pipe_top.svg',
+    pipeBottom: 'assets/pipe_bottom.svg',
   }
 }
