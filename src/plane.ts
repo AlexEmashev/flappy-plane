@@ -1,4 +1,4 @@
-import {IHitbox, ISprite, ISpriteElement} from './models';
+import {IHitbox, ISpriteElement} from './models';
 import gameResources from './resources';
 
 const PLANE_SETTINGS = {

@@ -1,9 +1,12 @@
 import settings from './settings';
 import gameResources from './resources';
 import { BottomClouds } from './bottom-clouds';
-import {Plane} from './plane';
-import {Clouds} from './clouds';
-import {Pipes} from './pipes';
+import { Plane } from './plane';
+import { Clouds } from './clouds';
+import { Pipes } from './pipes';
+import { Titles } from './titles';
+import {drawSprite} from './utils';
+import {Button} from './button';
 /**
  * Initializes the game
  */
@@ -13,6 +16,8 @@ export default function init() {
   setEventLoop(context);
 }
 
+const buttons: Button[] = [];
+
 function addCanvas(): CanvasRenderingContext2D {
   const gameContainerEl = document.getElementById('game');
   const canvas = document.createElement('canvas');
@@ -20,6 +25,10 @@ function addCanvas(): CanvasRenderingContext2D {
   canvas.id = settings.canvasName;
   canvas.width = settings.worldWidth;
   canvas.height = settings.worldHeight;
+
+  canvas.onmousemove = (e) => mouseMove(e);
+  canvas.onmousedown = (e) => mouseDown(e);
+  canvas.onmouseup = (e) => mouseUp(e);
 
   gameContainerEl.appendChild(canvas);
   return canvasContext;
@@ -30,6 +39,23 @@ function setEventLoop(context: CanvasRenderingContext2D) {
   const plane = new Plane();
   const clouds = new Clouds();
   const pipes = new Pipes();
+  const titles = new Titles();
+  const startButton = new Button(
+    context,
+    gameResources.startButtonNormalSpriteElement,
+    gameResources.startButtonHoverSpriteElement,
+    gameResources.startButtonPressSpriteElement
+  );
+
+  startButton.onHover(() => {
+    console.log(`🔰 button hover!`);
+  });
+
+  startButton.onUp(() => {
+    console.log(`🔰 button pressed!`);
+  })
+
+  buttons.push(startButton);
 
   setInterval(() => {
     // Check collision
@@ -38,8 +64,9 @@ function setEventLoop(context: CanvasRenderingContext2D) {
     drawWorld(context);
     bottomClouds.drawClouds(context);
     clouds.draw(context);
-    drawTitle(context);
-    drawStartButton(context);
+    titles.drawGameTitle(context);
+    titles.drawGameOverTitle(context);
+    startButton.draw();
     pipes.draw(context);
     plane.draw(context);
   }, settings.gameRefreshRate);
@@ -53,24 +80,6 @@ function drawWorld(context: CanvasRenderingContext2D) {
   context.fillRect(0,0, settings.worldWidth, settings.worldHeight);
 }
 
-function drawTitle(context: CanvasRenderingContext2D) {
-  context.drawImage(gameResources.spriteGameTitles,
-    0, 0,
-    730, 65,
-    47, 100,
-    230, 40
-  );
-}
-
-function drawStartButton(context: CanvasRenderingContext2D) {
-  context.drawImage(gameResources.spriteGameTitles,
-    0, 150,
-    185, 60,
-    80, 360,
-    150, 35
-  );
-}
-
 /**
  * Function for debug purposes to draw a sprite and adjust sizes.
  * @param context
@@ -80,4 +89,31 @@ function debugSprite(context: CanvasRenderingContext2D) {
     0, 0,
     50, 30
   );
+}
+
+function mouseMove(e: MouseEvent) {
+  for (const button of buttons) {
+    button.mouseMove({
+      x: e.offsetX,
+      y: e.offsetY
+    });
+  }
+}
+
+function mouseDown(e: MouseEvent) {
+  for (const button of buttons) {
+    button.mouseDown({
+      x: e.offsetX,
+      y: e.offsetY
+    });
+  }
+}
+
+function mouseUp(e: MouseEvent) {
+  for (const button of buttons) {
+    button.mouseUp({
+      x: e.offsetX,
+      y: e.offsetY
+    });
+  }
 }

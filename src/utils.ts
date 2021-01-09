@@ -1,4 +1,4 @@
-import {IHitbox, IPoint} from "./models";
+import {IHitbox, IPoint, ISprite, ISpriteElement} from "./models";
 
 /**
  * Return random number between min and max params
@@ -30,4 +30,37 @@ export function checkHitboxCollision(box1: IHitbox, box2: IHitbox): boolean {
   if (checkPointWithinBox({ x: box1.x2, y: box1.y2 }, box2)) return true;
 
   return false;
+}
+
+/**
+ * Draws sprite on the passed canvas
+ * @param sprite
+ * @param canvas
+ */
+export function drawSprite(sprite: ISprite|ISpriteElement, canvas: CanvasRenderingContext2D) {
+  const se = sprite as ISpriteElement;
+  const s = sprite as ISprite;
+
+  if(se.dx) {
+    canvas.drawImage(
+      se.sprite,
+      se.sx,
+      se.sy,
+      se.sWidth,
+      se.sHeight,
+      se.dx,
+      se.dy,
+      se.dWidth,
+      se.dHeight
+    );
+    return;
+  } else {
+    canvas.drawImage(
+      s.sprite,
+      s.x,
+      s.y,
+      s.width,
+      s.height
+    );
+  }
 }

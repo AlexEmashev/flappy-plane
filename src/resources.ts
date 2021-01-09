@@ -1,12 +1,5 @@
+import {ISpriteElement} from './models';
 import settings from './settings';
-
-interface IGameSprite {
-  src: string,
-  width: number,
-  height: number,
-  offsetX?: number,
-  offsetY?: number
-}
 
 class GameResourcesService {
   private static instance: GameResourcesService;
@@ -79,6 +72,72 @@ class GameResourcesService {
     }
 
     return this.pipeBottom;
+  }
+
+  private startButtonNormal: ISpriteElement;
+  get startButtonNormalSpriteElement(): ISpriteElement {
+    const buttonNormalImg = new Image();
+    buttonNormalImg.src = settings.sprites.titles;
+
+    if (!this.startButtonNormal) {
+      this.startButtonNormal = {
+        sprite: buttonNormalImg,
+        sx: 0,
+        sy: 150,
+        sWidth: 185,
+        sHeight: 60,
+        dx: settings.worldWidth / 4,
+        dy: settings.worldHeight / 1.57,
+        dWidth: settings.worldWidth / 2.13,
+        dHeight: settings.worldHeight / 16.22
+      };
+    }
+
+    return this.startButtonNormal;
+  }
+
+  private startButtonHover: ISpriteElement;
+  get startButtonHoverSpriteElement(): ISpriteElement {
+    const img = new Image();
+    img.src = settings.sprites.titles;
+
+    if (!this.startButtonHover) {
+      this.startButtonHover = {
+        sprite: img,
+        sx: 188,
+        sy: 150,
+        sWidth: 185,
+        sHeight: 60,
+        dx: settings.worldWidth / 4,
+        dy: settings.worldHeight / 1.57,
+        dWidth: settings.worldWidth / 2.13,
+        dHeight: settings.worldHeight / 16.22
+      };
+    }
+
+    return this.startButtonHover;
+  }
+
+  private startButtonPress: ISpriteElement;
+  get startButtonPressSpriteElement(): ISpriteElement {
+    const img = new Image();
+    img.src = settings.sprites.titles;
+
+    if (!this.startButtonPress) {
+      this.startButtonPress = {
+        sprite: img,
+        sx: 379,
+        sy: 150,
+        sWidth: 185,
+        sHeight: 60,
+        dx: settings.worldWidth / 4,
+        dy: settings.worldHeight / 1.57,
+        dWidth: settings.worldWidth / 2.13,
+        dHeight: settings.worldHeight / 16.22
+      };
+    }
+
+    return this.startButtonPress;
   }
 
   private constructor() {
