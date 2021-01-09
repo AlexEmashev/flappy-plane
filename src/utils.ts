@@ -1,4 +1,4 @@
-import {IHitbox, IPoint, ISprite, ISpriteElement} from "./models";
+import {IHitbox, IPoint, ISprite, ISpriteElement, ITextProperties} from "./models";
 
 /**
  * Return random number between min and max params
@@ -33,16 +33,16 @@ export function checkHitboxCollision(box1: IHitbox, box2: IHitbox): boolean {
 }
 
 /**
- * Draws sprite on the passed canvas
+ * Draws sprite on the passed context
  * @param sprite
- * @param canvas
+ * @param context
  */
-export function drawSprite(sprite: ISprite|ISpriteElement, canvas: CanvasRenderingContext2D) {
+export function drawSprite(sprite: ISprite|ISpriteElement, context: CanvasRenderingContext2D) {
   const se = sprite as ISpriteElement;
   const s = sprite as ISprite;
 
   if(se.dx) {
-    canvas.drawImage(
+    context.drawImage(
       se.sprite,
       se.sx,
       se.sy,
@@ -55,7 +55,7 @@ export function drawSprite(sprite: ISprite|ISpriteElement, canvas: CanvasRenderi
     );
     return;
   } else {
-    canvas.drawImage(
+    context.drawImage(
       s.sprite,
       s.x,
       s.y,
@@ -63,4 +63,22 @@ export function drawSprite(sprite: ISprite|ISpriteElement, canvas: CanvasRenderi
       s.height
     );
   }
+}
+
+/**
+ * Renders text to context
+ * @param textProps text with properties to render
+ * @param context
+ */
+export function drawText(textProps: ITextProperties, context: CanvasRenderingContext2D) {
+  context.font = textProps.font;
+  const textStrokeOffset = 2;
+
+  if (textProps.shadowColor) {
+    context.fillStyle = textProps.shadowColor,
+    context.fillText(textProps.text, textProps.x + textStrokeOffset, textProps.y + textStrokeOffset);
+  }
+
+  context.fillStyle = textProps.color,
+  context.fillText(textProps.text, textProps.x, textProps.y);
 }

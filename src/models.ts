@@ -50,3 +50,12 @@ export enum MouseEventTypeEnum {
   down,
   up
 }
+
+export interface ITextProperties {
+  text: string,
+  x: number,
+  y: number,
+  font: string,
+  color: string,
+  shadowColor?: string
+}

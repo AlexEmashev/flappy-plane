@@ -74,6 +74,8 @@ function setEventLoop(context: CanvasRenderingContext2D) {
     clouds.draw();
     titles.drawGameTitle();
     titles.drawGameOverTitle();
+    titles.drawScore();
+    titles.drawFinalScore()
     againButton.draw();
     startButton.draw();
     pipes.draw();
