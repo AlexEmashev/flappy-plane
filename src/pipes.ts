@@ -19,15 +19,14 @@ export class Pipes {
 
   private pipes: IPipes;
 
-  constructor() {
+  constructor(private context: CanvasRenderingContext2D) {
     this.pipes = this.getPipes();
   }
 
   /**
    * Draws pipes using passed context
-   * @param context context to draw to
    */
-  draw(context: CanvasRenderingContext2D) {
+  draw() {
     this.pipes.topPipe.x -= PIPES_SETTINGS.speed;
     this.pipes.bottomPipe.x -= PIPES_SETTINGS.speed;
 
@@ -35,7 +34,7 @@ export class Pipes {
       this.pipes = this.getPipes();
     }
 
-    context.drawImage(
+    this.context.drawImage(
       this.pipes.topPipe.sprite,
       this.pipes.topPipe.x,
       this.pipes.topPipe.y,
@@ -43,7 +42,7 @@ export class Pipes {
       this.pipes.topPipe.height
     );
 
-    context.drawImage(
+    this.context.drawImage(
       this.pipes.bottomPipe.sprite,
       this.pipes.bottomPipe.x,
       this.pipes.bottomPipe.y,
@@ -96,14 +95,14 @@ export class Pipes {
 
     return {
       topPipe: {
-        sprite: gameResources.spritePipeTop,
+        sprite: gameResources.pipeTopImg,
         x: settings.worldWidth,
         y: topPipeOffset,
         width: PIPES_SETTINGS.width,
         height: PIPES_SETTINGS.height
       },
       bottomPipe: {
-        sprite: gameResources.spritePipeBottom,
+        sprite: gameResources.pipeBottomImg,
         x: settings.worldWidth,
         y: bottomPipeOffset,
         width: PIPES_SETTINGS.width,

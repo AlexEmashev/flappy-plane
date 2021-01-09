@@ -7,6 +7,7 @@ import { Pipes } from './pipes';
 import { Titles } from './titles';
 import {drawSprite} from './utils';
 import {Button} from './button';
+import {IPoint, MouseEventTypeEnum} from './models';
 /**
  * Initializes the game
  */
@@ -26,26 +27,32 @@ function addCanvas(): CanvasRenderingContext2D {
   canvas.width = settings.worldWidth;
   canvas.height = settings.worldHeight;
 
-  canvas.onmousemove = (e) => mouseMove(e);
-  canvas.onmousedown = (e) => mouseDown(e);
-  canvas.onmouseup = (e) => mouseUp(e);
+  canvas.onmousemove = (e) => mouseEvent({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.move);
+  canvas.onmousedown = (e) => mouseEvent({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.down);
+  canvas.onmouseup = (e) => mouseEvent({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.up);
 
   gameContainerEl.appendChild(canvas);
   return canvasContext;
 }
 
 function setEventLoop(context: CanvasRenderingContext2D) {
-  const bottomClouds = new BottomClouds();
-  const plane = new Plane();
-  const clouds = new Clouds();
-  const pipes = new Pipes();
-  const titles = new Titles();
+  const bottomClouds = new BottomClouds(context);
+  const plane = new Plane(context);
+  const clouds = new Clouds(context);
+  const pipes = new Pipes(context);
+  const titles = new Titles(context);
   const startButton = new Button(
     context,
-    gameResources.startButtonNormalSpriteElement,
-    gameResources.startButtonHoverSpriteElement,
-    gameResources.startButtonPressSpriteElement
+    gameResources.startButtonSprites[0],
+    gameResources.startButtonSprites[1],
+    gameResources.startButtonSprites[2]
   );
+  const againButton = new Button(
+    context,
+    gameResources.againButtonSprites[0],
+    gameResources.againButtonSprites[1],
+    gameResources.againButtonSprites[2]
+  )
 
   startButton.onHover(() => {
     console.log(`🔰 button hover!`);
@@ -56,19 +63,21 @@ function setEventLoop(context: CanvasRenderingContext2D) {
   })
 
   buttons.push(startButton);
+  buttons.push(againButton);
 
   setInterval(() => {
     // Check collision
     pipes.checkCollision(plane.hitbox);
     // Draw objects
     drawWorld(context);
-    bottomClouds.drawClouds(context);
-    clouds.draw(context);
-    titles.drawGameTitle(context);
-    titles.drawGameOverTitle(context);
+    bottomClouds.draw();
+    clouds.draw();
+    titles.drawGameTitle();
+    titles.drawGameOverTitle();
+    againButton.draw();
     startButton.draw();
-    pipes.draw(context);
-    plane.draw(context);
+    pipes.draw();
+    plane.draw();
   }, settings.gameRefreshRate);
 }
 
@@ -81,39 +90,10 @@ function drawWorld(context: CanvasRenderingContext2D) {
 }
 
 /**
- * Function for debug purposes to draw a sprite and adjust sizes.
- * @param context
+ * Handles mouse events from canvas
+ * @param point pointer position
+ * @param eventType type of event
  */
-function debugSprite(context: CanvasRenderingContext2D) {
-  context.drawImage(gameResources.spriteCloud2,
-    0, 0,
-    50, 30
-  );
-}
-
-function mouseMove(e: MouseEvent) {
-  for (const button of buttons) {
-    button.mouseMove({
-      x: e.offsetX,
-      y: e.offsetY
-    });
-  }
-}
-
-function mouseDown(e: MouseEvent) {
-  for (const button of buttons) {
-    button.mouseDown({
-      x: e.offsetX,
-      y: e.offsetY
-    });
-  }
-}
-
-function mouseUp(e: MouseEvent) {
-  for (const button of buttons) {
-    button.mouseUp({
-      x: e.offsetX,
-      y: e.offsetY
-    });
-  }
+function mouseEvent(point: IPoint, eventType: MouseEventTypeEnum) {
+  buttons.forEach(button => button.mouseEventHandler(point, eventType));
 }

@@ -4,140 +4,210 @@ import settings from './settings';
 class GameResourcesService {
   private static instance: GameResourcesService;
 
-  private planeSprites: HTMLImageElement;
-  get spritePlane(): HTMLImageElement {
-    if (!this.planeSprites) {
-      this.planeSprites = new Image();
-      this.planeSprites.src = settings.sprites.planes;
+  private _planeImg: HTMLImageElement;
+  private get planeImg(): HTMLImageElement {
+    if (!this._planeImg) {
+      this._planeImg = new Image();
+      this._planeImg.src = settings.sprites.planes;
     }
 
-    return this.planeSprites;
+    return this._planeImg;
   }
 
-  private gameTitles: HTMLImageElement;
-  get spriteGameTitles(): HTMLImageElement {
-    if (!this.gameTitles) {
-      this.gameTitles = new Image();
-      this.gameTitles.src = settings.sprites.titles;
+  private _gameTitlesImg: HTMLImageElement;
+  private get gameTitlesImg(): HTMLImageElement {
+    if (!this._gameTitlesImg) {
+      this._gameTitlesImg = new Image();
+      this._gameTitlesImg.src = settings.sprites.titles;
     }
 
-    return this.gameTitles;
+    return this._gameTitlesImg;
   }
 
-  private bottomClouds: HTMLImageElement;
-  get spriteBottomClouds(): HTMLImageElement {
-    if (!this.bottomClouds) {
-      this.bottomClouds = new Image();
-      this.bottomClouds.src = settings.sprites.bottomClouds;
-    }
-
-    return this.bottomClouds;
-  }
-
-  private cloud1: HTMLImageElement;
-  get spriteCloud1(): HTMLImageElement {
-    if (!this.cloud1) {
-      this.cloud1 = new Image();
-      this.cloud1.src = settings.sprites.cloud1;
-    }
-
-    return this.cloud1;
-  }
-
-  private cloud2: HTMLImageElement;
-  get spriteCloud2(): HTMLImageElement {
-    if (!this.cloud2) {
-      this.cloud2 = new Image();
-      this.cloud2.src = settings.sprites.cloud2;
-    }
-
-    return this.cloud2;
-  }
-
-  private pipeTop: HTMLImageElement;
-  get spritePipeTop(): HTMLImageElement {
-    if (!this.pipeTop) {
-      this.pipeTop = new Image();
-      this.pipeTop.src = settings.sprites.pipeTop;
-    }
-
-    return this.pipeTop;
-  }
-
-  private pipeBottom: HTMLImageElement;
-  get spritePipeBottom(): HTMLImageElement {
-    if (!this.pipeBottom) {
-      this.pipeBottom = new Image();
-      this.pipeBottom.src = settings.sprites.pipeBottom;
-    }
-
-    return this.pipeBottom;
-  }
-
-  private startButtonNormal: ISpriteElement;
-  get startButtonNormalSpriteElement(): ISpriteElement {
-    const buttonNormalImg = new Image();
-    buttonNormalImg.src = settings.sprites.titles;
-
-    if (!this.startButtonNormal) {
-      this.startButtonNormal = {
-        sprite: buttonNormalImg,
+  private _gameTitleSprite: ISpriteElement;
+  get gameTitleSprite(): ISpriteElement {
+    if (!this._gameTitleSprite) {
+      this._gameTitleSprite = {
+        sprite: this.gameTitlesImg,
         sx: 0,
-        sy: 150,
-        sWidth: 185,
-        sHeight: 60,
-        dx: settings.worldWidth / 4,
-        dy: settings.worldHeight / 1.57,
-        dWidth: settings.worldWidth / 2.13,
-        dHeight: settings.worldHeight / 16.22
-      };
+        sy: 0,
+        sWidth: 730,
+        sHeight: 65,
+        dx: settings.worldWidth / 8,
+        dy: settings.worldHeight / 6,
+        dWidth: settings.worldWidth / 1.3,
+        dHeight: settings.worldHeight / 14.2
+      }
     }
 
-    return this.startButtonNormal;
+    return this._gameTitleSprite;
   }
 
-  private startButtonHover: ISpriteElement;
-  get startButtonHoverSpriteElement(): ISpriteElement {
-    const img = new Image();
-    img.src = settings.sprites.titles;
-
-    if (!this.startButtonHover) {
-      this.startButtonHover = {
-        sprite: img,
-        sx: 188,
-        sy: 150,
-        sWidth: 185,
-        sHeight: 60,
-        dx: settings.worldWidth / 4,
-        dy: settings.worldHeight / 1.57,
-        dWidth: settings.worldWidth / 2.13,
-        dHeight: settings.worldHeight / 16.22
-      };
+  private _gameOverSprite: ISpriteElement;
+  get gameOverSprite(): ISpriteElement {
+    if (!this._gameOverSprite) {
+      this._gameOverSprite = {
+        sprite: this.gameTitlesImg,
+        sx: 0,
+        sy: 90,
+        sWidth: 373,
+        sHeight: 50,
+        dx: settings.worldWidth / 7.1,
+        dy: settings.worldHeight / 2.84,
+        dWidth: settings.worldWidth / 1.3,
+        dHeight: settings.worldHeight / 12.6
+      }
     }
 
-    return this.startButtonHover;
+    return this._gameOverSprite;
   }
 
-  private startButtonPress: ISpriteElement;
-  get startButtonPressSpriteElement(): ISpriteElement {
-    const img = new Image();
-    img.src = settings.sprites.titles;
+  private _bottomCloudsImg: HTMLImageElement;
+  get bottomCloudsImg(): HTMLImageElement {
+    if (!this._bottomCloudsImg) {
+      this._bottomCloudsImg = new Image();
+      this._bottomCloudsImg.src = settings.sprites.bottomClouds;
+    }
 
-    if (!this.startButtonPress) {
-      this.startButtonPress = {
-        sprite: img,
-        sx: 379,
-        sy: 150,
-        sWidth: 185,
-        sHeight: 60,
+    return this._bottomCloudsImg;
+  }
+
+  private _cloud1Img: HTMLImageElement;
+  get cloud1Img(): HTMLImageElement {
+    if (!this._cloud1Img) {
+      this._cloud1Img = new Image();
+      this._cloud1Img.src = settings.sprites.cloud1;
+    }
+
+    return this._cloud1Img;
+  }
+
+  private _cloud2Img: HTMLImageElement;
+  get cloud2Img(): HTMLImageElement {
+    if (!this._cloud2Img) {
+      this._cloud2Img = new Image();
+      this._cloud2Img.src = settings.sprites.cloud2;
+    }
+
+    return this._cloud2Img;
+  }
+
+  private _pipeTopImg: HTMLImageElement;
+  get pipeTopImg(): HTMLImageElement {
+    if (!this._pipeTopImg) {
+      this._pipeTopImg = new Image();
+      this._pipeTopImg.src = settings.sprites.pipeTop;
+    }
+
+    return this._pipeTopImg;
+  }
+
+  private _pipeBottomImg: HTMLImageElement;
+  get pipeBottomImg(): HTMLImageElement {
+    if (!this._pipeBottomImg) {
+      this._pipeBottomImg = new Image();
+      this._pipeBottomImg.src = settings.sprites.pipeBottom;
+    }
+
+    return this._pipeBottomImg;
+  }
+
+  private _startButtonSprites: ISpriteElement[];
+  get startButtonSprites(): ISpriteElement[] {
+    if (this._startButtonSprites) return this._startButtonSprites;
+
+    const spriteCoordinatesX = [0, 188, 379];
+    const spriteCoordinateY = 150;
+    const spriteSize = {
+      sWidth: 185,
+      sHeight: 60
+    };
+
+    this._startButtonSprites = [0, 1 ,2].map(spriteNumber => {
+      return {
+        sprite: this.gameTitlesImg,
+        sx: spriteCoordinatesX[spriteNumber],
+        sy: spriteCoordinateY,
+        sWidth: spriteSize.sWidth,
+        sHeight: spriteSize.sHeight,
         dx: settings.worldWidth / 4,
         dy: settings.worldHeight / 1.57,
         dWidth: settings.worldWidth / 2.13,
         dHeight: settings.worldHeight / 16.22
-      };
-    }
+      }
+    });
 
-    return this.startButtonPress;
+    return this._startButtonSprites;
+  }
+
+  private _againButtomSprites: ISpriteElement[];
+  get againButtonSprites(): ISpriteElement[] {
+    if (this._againButtomSprites) return this._againButtomSprites;
+
+    const spriteXCoordinates = [0, 183, 363];
+    const spriteYCoordinate = 232;
+    const spriteSizes = { sWidth: 185, sHeight: 60 };
+
+    this._againButtomSprites = [0, 1, 2].map(spriteNumber => {
+      return {
+        sprite: this.gameTitlesImg,
+        sx: spriteXCoordinates[spriteNumber],
+        sy: spriteYCoordinate,
+        sWidth: spriteSizes.sWidth,
+        sHeight: spriteSizes.sHeight,
+        dx: settings.worldWidth / 4,
+        dy: settings.worldHeight / 1.9,
+        dWidth: settings.worldWidth / 2.13,
+        dHeight: settings.worldHeight / 16.22
+      }
+    });
+
+    return this._againButtomSprites;
+  }
+
+  private _planeSprites: ISpriteElement[];
+  private get planeSprites(): ISpriteElement[] {
+    if (this._planeSprites) return this._planeSprites;
+
+    const spriteXCoordinates = [-3.4, 80, 170.4, 259, 344.9, 442.4];
+    const spriteYCoordinate = 0;
+    const spriteSize = {
+      sWidth: 80,
+      sHeight: 80
+    };
+
+    // ToDo: rename sprite to image in ISprite and ISpriteElement
+    this._planeSprites = [0, 1, 2, 3, 4, 5].map(spriteNumber => {
+      return {
+        sprite: this.planeImg,
+        sx: spriteXCoordinates[spriteNumber],
+        sy: spriteYCoordinate,
+        sWidth: spriteSize.sWidth,
+        sHeight: spriteSize.sHeight,
+        dx: 100,
+        dy: 220,
+        dWidth: settings.worldWidth / 3.2,
+        dHeight: settings.worldHeight / 5.68
+      }
+    });
+
+    return this._planeSprites;
+  }
+
+  private _planeUpSprites: ISpriteElement[];
+  get planeUpSprites(): ISpriteElement[] {
+    if (this._planeUpSprites) return this._planeUpSprites;
+
+    this._planeUpSprites = this.planeSprites.slice(3, 6);
+    return this._planeUpSprites;
+  }
+
+  private _planeDownSprites: ISpriteElement[];
+  get planeDownSprites(): ISpriteElement[] {
+    if (this._planeDownSprites) return this._planeDownSprites;
+
+    this._planeDownSprites = this.planeSprites.slice(0, 3);
+    return this._planeDownSprites;
   }
 
   private constructor() {

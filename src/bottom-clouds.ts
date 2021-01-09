@@ -1,23 +1,24 @@
 import settings from './settings';
 import gameResourcesService from './resources';
 import { ISprite } from './models';
+import { drawSprite } from './utils';
 
 /**
  * Draws bottom clouds line
  */
 export class BottomClouds {
 
-  private cloudsHeight = 100;
-  private cloudsWidth = 250;
+  private cloudsWidth = settings.worldWidth / 1.28;
+  private cloudsHeight = settings.worldHeight / 5.68;
   private cloudsSpeed = 2;
   private cloudTiles: ISprite[] = [];
 
-  constructor() {
+  constructor(private context: CanvasRenderingContext2D) {
     let currentSpritePosition = 0;
     // Init tiles according to canvas width
     while (currentSpritePosition <= settings.worldWidth) {
       this.cloudTiles.push({
-        sprite: gameResourcesService.spriteBottomClouds,
+        sprite: gameResourcesService.bottomCloudsImg,
         x: currentSpritePosition,
         y: settings.worldHeight - this.cloudsHeight,
         width: this.cloudsWidth,
@@ -30,9 +31,8 @@ export class BottomClouds {
 
   /**
    * Draws bottom cloud line
-   * @param context context to draw to
    */
-  drawClouds(context: CanvasRenderingContext2D) {
+  draw() {
     // Move all cloud tiles across X axis
     this.cloudTiles.map(cloud => cloud.x -= this.cloudsSpeed);
 
@@ -48,7 +48,7 @@ export class BottomClouds {
 
     if (lastCloudRightBorderCoordinate < settings.worldWidth) {
       this.cloudTiles.push({
-        sprite: gameResourcesService.spriteBottomClouds,
+        sprite: gameResourcesService.bottomCloudsImg,
         x: lastCloudRightBorderCoordinate,
         y: settings.worldHeight - this.cloudsHeight,
         width: this.cloudsWidth,
@@ -57,13 +57,7 @@ export class BottomClouds {
     }
 
     for (const cloud of this.cloudTiles) {
-      context.drawImage(
-        cloud.sprite,
-        cloud.x,
-        cloud.y,
-        cloud.width,
-        cloud.height
-      );
+      drawSprite(cloud, this.context);
     }
   }
 }

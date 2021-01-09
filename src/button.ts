@@ -1,4 +1,4 @@
-import {IHitbox, IPoint, ISprite, ISpriteElement} from "./models";
+import {IHitbox, IPoint, ISprite, ISpriteElement, MouseEventTypeEnum} from "./models";
 import {checkPointWithinBox, drawSprite} from "./utils";
 
 export enum ButtonStateEnum {
@@ -7,6 +7,9 @@ export enum ButtonStateEnum {
   down = 'down'
 }
 
+/**
+ * Class for button object
+ */
 export class Button {
   hitbox: IHitbox;
   buttonState = ButtonStateEnum.normal;
@@ -14,6 +17,7 @@ export class Button {
   private hoverCallback: () => void;
   private pressCallback: () => void;
   private upCallback: () => void;
+  private clickCallback: () => void;
 
   constructor(
     private context: CanvasRenderingContext2D,
@@ -43,35 +47,51 @@ export class Button {
   }
 
   /**
-   * Call to pass mouse pointer coordinates
-   * @param point
+   * Handles mouse event from canvas
+   * @param point pointer coordinates
+   * @param eventType type of mouse events.
    */
-  mouseMove(point: IPoint) {
-    if (!this.hitbox) return;
+  mouseEventHandler(point: IPoint, eventType: MouseEventTypeEnum) {
+    const pointerOverButton = checkPointWithinBox(point, this.hitbox);
 
-    const buttonHovered = checkPointWithinBox(point, this.hitbox);
+    switch (eventType) {
+      case MouseEventTypeEnum.move:
+        this.mouseMove(pointerOverButton);
+        return;
+      case MouseEventTypeEnum.down:
+        this.mouseDown(pointerOverButton);
+        return;
+      case MouseEventTypeEnum.up:
+        this.mouseUp();
+        return;
+      default:
+        return;
+    }
+  }
 
-    if (buttonHovered && this.buttonState !== ButtonStateEnum.down) {
+  /**
+   * Process mouse move event
+   * @param isPointerOverButton
+   */
+  private mouseMove(isPointerOverButton: boolean) {
+    if (isPointerOverButton && this.buttonState !== ButtonStateEnum.down) {
       this.buttonState = ButtonStateEnum.hover;
       if (this.hoverCallback) {
         this.hoverCallback();
       }
     }
 
-    if (!buttonHovered && this.buttonState === ButtonStateEnum.hover) {
+    if (!isPointerOverButton && this.buttonState === ButtonStateEnum.hover) {
       this.buttonState = ButtonStateEnum.normal;
     }
   }
 
   /**
-   * Call to pass coordinates of mouse button down
-   * @param point
+   * Process mouse down event
+   * @param isPointerOverButton
    */
-  mouseDown(point: IPoint) {
-    if (!this.hitbox) return;
-    const buttonDown = checkPointWithinBox(point, this.hitbox);
-
-    if (buttonDown) {
+  private mouseDown(isPointerOverButton: boolean) {
+    if (isPointerOverButton) {
       this.buttonState = ButtonStateEnum.down;
 
       if (this.pressCallback) {
@@ -80,14 +100,19 @@ export class Button {
     }
   }
 
-  mouseUp(point: IPoint) {
-    if (!this.hitbox) return;
-
+  /**
+   * Process mouse up event
+   */
+  private mouseUp() {
     if (this.buttonState == ButtonStateEnum.down) {
       this.buttonState = ButtonStateEnum.normal;
 
       if (this.upCallback) {
         this.upCallback();
+      }
+
+      if (this.clickCallback) {
+        this.clickCallback();
       }
     }
   }
@@ -114,6 +139,14 @@ export class Button {
    */
   onUp(callback: () => void) {
     this.upCallback = callback;
+  }
+
+  /**
+   * Register callback of button click
+   * @param callback
+   */
+  onClick(callback: () => void) {
+    this.clickCallback = callback;
   }
 
   draw(): void {

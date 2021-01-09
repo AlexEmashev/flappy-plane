@@ -1,5 +1,6 @@
 import {IHitbox, ISpriteElement} from './models';
 import gameResources from './resources';
+import {drawSprite} from './utils';
 
 const PLANE_SETTINGS = {
   spritesCount: 3,
@@ -21,72 +22,6 @@ export class Plane {
   planeState = planeStates.flyUp;
   private spriteNumber = 0;
   private currentSpriteFrame = 0;
-  private flyDownSprites = [
-    {
-      sx: -3.4,
-      sy: 0,
-      sWidth: 80,
-      sHeight: 80,
-      dx: 100,
-      dy: 220,
-      dWidth: 100,
-      dHeight: 100
-    },
-    {
-      sx: 80,
-      sy: 0,
-      sWidth: 80,
-      sHeight: 80,
-      dx: 100,
-      dy: 220,
-      dWidth: 100,
-      dHeight: 100
-    },
-    {
-      sx: 170.4,
-      sy: 0,
-      sWidth: 80,
-      sHeight: 80,
-      dx: 100,
-      dy: 220,
-      dWidth: 100,
-      dHeight: 100
-    },
-  ];
-  // ToDo: fix clipping (increase overall sWidth and sHeight)
-  private flyUpSprites = [
-    {
-      sx: 259,
-      sy: 0,
-      sWidth: 80,
-      sHeight: 80,
-      dx: 100,
-      dy: 220,
-      dWidth: 100,
-      dHeight: 100
-    },
-    {
-      sx: 344.9,
-      sy: 0,
-      sWidth: 80,
-      sHeight: 80,
-      dx: 100,
-      dy: 220,
-      dWidth: 100,
-      dHeight: 100
-    },
-    {
-      sx: 442.4,
-      sy: 0,
-      sWidth: 80,
-      sHeight: 80,
-      dx: 100,
-      dy: 220,
-      dWidth: 100,
-      dHeight: 100
-    },
-  ]
-
   private planeSprite: ISpriteElement;
 
   /**
@@ -103,34 +38,27 @@ export class Plane {
     };
   }
 
-  constructor() {
-    this.planeSprite = {
-      sprite: gameResources.spritePlane,
-      sx: this.flyDownSprites[0].sx,
-      sy: this.flyDownSprites[0].sy,
-      sWidth: this.flyDownSprites[0].sWidth,
-      sHeight: this.flyDownSprites[0].sHeight,
-      dx: this.flyDownSprites[0].dx,
-      dy: this.flyDownSprites[0].dy,
-      dWidth: this.flyDownSprites[0].dWidth,
-      dHeight: this.flyDownSprites[0].dHeight
-    }
+  constructor(private context: CanvasRenderingContext2D) {
+    this.planeState = planeStates.flyDown;
+    this.planeSprite = gameResources.planeDownSprites[0];
   }
 
   /**
    * Draws plane on the game context
-   * @param context current game context
    */
-  draw(context: CanvasRenderingContext2D) {
+  draw() {
     let spriteNumber = this.getSpriteNumber();
 
-    context.drawImage(
-      gameResources.spritePlane,
-      this.getPlaneSprite(spriteNumber).sx, this.getPlaneSprite(spriteNumber).sy, // top-left corner of the source
-      this.getPlaneSprite(spriteNumber).sWidth, this.getPlaneSprite(spriteNumber).sHeight, // width and height of the sprite in the source
-      this.getPlaneSprite(spriteNumber).dx, this.getPlaneSprite(spriteNumber).dy, // location on the canvas
-      this.getPlaneSprite(spriteNumber).dWidth, this.getPlaneSprite(spriteNumber).dHeight // width and height on the canvas
-    );
+    switch (this.planeState) {
+      case planeStates.flyDown:
+        drawSprite(gameResources.planeDownSprites[spriteNumber], this.context);
+        break;
+      case planeStates.flyUp:
+        drawSprite(gameResources.planeUpSprites[spriteNumber], this.context);
+        break;
+      default:
+        break;
+    }
   }
 
   /**
@@ -147,28 +75,5 @@ export class Plane {
     }
 
     return this.spriteNumber;
-  }
-
-  /**
-   * Returns plane sprite according to plane state
-   * @param frame current sprite frame of animation
-   */
-  private getPlaneSprite(frame = 0): ISpriteElement {
-    switch (this.planeState) {
-      case planeStates.flyDown:
-        this.planeSprite.sx = this.flyDownSprites[frame].sx;
-        this.planeSprite.sy = this.flyDownSprites[frame].sy;
-        this.planeSprite.sWidth = this.flyDownSprites[frame].sWidth;
-        this.planeSprite.sHeight = this.flyDownSprites[frame].sHeight;
-        break;
-      case planeStates.flyUp:
-        this.planeSprite.sx = this.flyUpSprites[frame].sx;
-        this.planeSprite.sy = this.flyUpSprites[frame].sy;
-        this.planeSprite.sWidth = this.flyUpSprites[frame].sWidth;
-        this.planeSprite.sHeight = this.flyUpSprites[frame].sHeight;
-        break;
-    }
-
-    return this.planeSprite;
   }
 }

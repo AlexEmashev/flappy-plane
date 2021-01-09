@@ -41,3 +41,12 @@ export interface IPoint {
   x: number,
   y: number
 }
+
+/**
+ * Describes mouse event type
+ */
+export enum MouseEventTypeEnum {
+  move,
+  down,
+  up
+}

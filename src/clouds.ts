@@ -1,7 +1,7 @@
 import gameResources from './resources';
 import settings from './settings';
 import { ISprite } from './models';
-import { randomNumber } from './utils';
+import { drawSprite, randomNumber } from './utils';
 
 interface ICloudSprite extends ISprite {
   speed: number;
@@ -27,7 +27,7 @@ export class Clouds {
 
   private clouds: ICloudSprite[] = [];
 
-  constructor() {
+  constructor(private context: CanvasRenderingContext2D) {
     const cloud1 = this.getNewCloud();
     const cloud2 = this.getNewCloud();
     const cloud3 = this.getNewCloud();
@@ -48,7 +48,7 @@ export class Clouds {
     );
   }
 
-  draw(context: CanvasRenderingContext2D) {
+  draw() {
     this.clouds.map(cloud => cloud.x -= cloud.speed)
     this.clouds = this.clouds.filter(cloud => cloud.x + cloud.width >= 0);
 
@@ -57,13 +57,7 @@ export class Clouds {
     }
 
     for (const cloud of this.clouds) {
-      context.drawImage(
-        cloud.sprite,
-        cloud.x,
-        cloud.y,
-        cloud.width,
-        cloud.height
-      );
+      drawSprite(cloud, this.context);
     }
   }
 
@@ -77,7 +71,7 @@ export class Clouds {
     const cloudSize = randomNumber(CLOUDS_SETTINGS.minSize, CLOUDS_SETTINGS.maxSize);
 
     return {
-      sprite: cloudSpriteNumber === 1 ? gameResources.spriteCloud1 : gameResources.spriteCloud2,
+      sprite: cloudSpriteNumber === 1 ? gameResources.cloud1Img : gameResources.cloud2Img,
       x: settings.worldWidth,
       y: yCoordinate,
       width: (cloudSpriteNumber === 1 ? CLOUDS_SETTINGS.cloud1.width : CLOUDS_SETTINGS.cloud2.width) * cloudSize,
