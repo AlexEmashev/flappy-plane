@@ -59,3 +59,10 @@ export interface ITextProperties {
   color: string,
   shadowColor?: string
 }
+
+export enum GameState {
+  TitleScreen,
+  Gameplay,
+  GameOver,
+  ScoreScreen
+}

@@ -5,14 +5,24 @@ import { drawSprite, drawText } from './utils';
 export class Titles {
   constructor(private context: CanvasRenderingContext2D) {}
 
+  /**
+   * Renders game name
+   */
   drawGameTitle() {
     drawSprite(gameResources.gameTitleSprite, this.context);
   }
 
+  /**
+   * Renders game over title
+   */
   drawGameOverTitle() {
     drawSprite(gameResources.gameOverSprite, this.context);
   }
 
+  /**
+   * Renders current score
+   * @param score
+   */
   drawScore(score: number = 0) {
     const fontWidth = 18;
     const offset = score.toString().length * fontWidth;
@@ -27,6 +37,10 @@ export class Titles {
     }, this.context);
   }
 
+  /**
+   * Renders final score info
+   * @param score
+   */
   drawFinalScore(score: number = 0) {
     const finalScore = `score: ${score}`;
 

@@ -5,9 +5,9 @@ import { Plane } from './plane';
 import { Clouds } from './clouds';
 import { Pipes } from './pipes';
 import { Titles } from './titles';
-import {drawSprite} from './utils';
-import {Button} from './button';
-import {IPoint, MouseEventTypeEnum} from './models';
+import { Button } from './button';
+import { GameState, IPoint, MouseEventTypeEnum } from './models';
+import { GameWorld } from './world';
 /**
  * Initializes the game
  */
@@ -18,6 +18,7 @@ export default function init() {
 }
 
 const buttons: Button[] = [];
+const gameState: GameState = GameState.TitleScreen
 
 function addCanvas(): CanvasRenderingContext2D {
   const gameContainerEl = document.getElementById('game');
@@ -41,6 +42,8 @@ function setEventLoop(context: CanvasRenderingContext2D) {
   const clouds = new Clouds(context);
   const pipes = new Pipes(context);
   const titles = new Titles(context);
+  const world = new GameWorld(context);
+
   const startButton = new Button(
     context,
     gameResources.startButtonSprites[0],
@@ -69,7 +72,7 @@ function setEventLoop(context: CanvasRenderingContext2D) {
     // Check collision
     pipes.checkCollision(plane.hitbox);
     // Draw objects
-    drawWorld(context);
+    world.draw();
     bottomClouds.draw();
     clouds.draw();
     titles.drawGameTitle();
@@ -83,14 +86,6 @@ function setEventLoop(context: CanvasRenderingContext2D) {
   }, settings.gameRefreshRate);
 }
 
-function drawWorld(context: CanvasRenderingContext2D) {
-  const canvasGradient = context.createLinearGradient(0, 0, 0, settings.worldHeight);
-  canvasGradient.addColorStop(0, settings.worldBackground.top);
-  canvasGradient.addColorStop(1, settings.worldBackground.bottom);
-  context.fillStyle = canvasGradient;
-  context.fillRect(0,0, settings.worldWidth, settings.worldHeight);
-}
-
 /**
  * Handles mouse events from canvas
  * @param point pointer position
@@ -98,4 +93,24 @@ function drawWorld(context: CanvasRenderingContext2D) {
  */
 function mouseEvent(point: IPoint, eventType: MouseEventTypeEnum) {
   buttons.forEach(button => button.mouseEventHandler(point, eventType));
+}
+
+function gameStateRender() {
+  switch (gameState) {
+    case GameState.TitleScreen:
+      gameStateTitleScreen();
+      break;
+    case GameState.Gameplay:
+      break;
+    case GameState.GameOver:
+      break;
+    case GameState.ScoreScreen:
+      break;
+    default:
+      break;
+  }
+}
+
+function gameStateTitleScreen() {
+
 }
