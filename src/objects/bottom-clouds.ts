@@ -1,7 +1,7 @@
-import settings from './settings';
-import gameResourcesService from './resources';
-import { AnimationState, ISprite } from './models';
-import { drawSprite } from './utils';
+import settings from '@src/settings';
+import gameResourcesService from '@src/resources';
+import { AnimationState, ISprite } from '@src/models';
+import { drawSprite } from '@src/utils';
 
 /**
  * Draws bottom clouds line

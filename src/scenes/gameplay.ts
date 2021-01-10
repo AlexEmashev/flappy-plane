@@ -1,11 +1,11 @@
-import { BottomClouds } from "@src/bottom-clouds";
-import { Clouds } from "@src/clouds";
-import { AnimationState, GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum, PlaneStatesEnum } from "@src/models";
-import {Pipes} from "@src/pipes";
-import {Plane} from "@src/plane";
 import settings from "@src/settings";
-import {Titles} from "@src/titles";
-import {GameWorld} from "@src/world";
+import { BottomClouds } from "@src/objects/bottom-clouds";
+import { Clouds } from "@src/objects/clouds";
+import { AnimationState, GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum, PlaneStatesEnum } from "@src/models";
+import { Pipes } from "@src/objects/pipes";
+import { Plane } from "@src/objects/plane";
+import { Titles } from "@src/objects/titles";
+import { GameWorld } from "@src/objects/world";
 
 export class Gameplay implements IGameScene {
   data = {

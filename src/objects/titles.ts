@@ -1,6 +1,6 @@
-import gameResources from './resources';
-import settings from './settings';
-import { drawSprite, drawText } from './utils';
+import gameResources from '@src/resources';
+import settings from '@src/settings';
+import { drawSprite, drawText } from '@src/utils';
 
 export class Titles {
   constructor(private context: CanvasRenderingContext2D) {}

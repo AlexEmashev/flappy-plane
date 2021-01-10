@@ -1,6 +1,6 @@
-import { AnimationState, IHitbox, IPoint, ISpriteElement, PlaneStatesEnum } from './models';
-import gameResources from './resources';
-import { drawSprite } from './utils';
+import { AnimationState, IHitbox, IPoint, ISpriteElement, PlaneStatesEnum } from '@src/models';
+import gameResources from '@src/resources';
+import { drawSprite } from '@src/utils';
 
 const PLANE_SETTINGS = {
   spritesCount: 3,

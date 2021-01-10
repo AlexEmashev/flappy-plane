@@ -1,7 +1,7 @@
-import { AnimationState, IHitbox, IPoint, ISprite } from './models';
-import gameResources from './resources';
-import settings from './settings';
-import { checkHitboxCollision, randomNumber } from './utils';
+import { AnimationState, IHitbox, IPoint, ISprite } from '@src/models';
+import gameResources from '@src/resources';
+import settings from '@src/settings';
+import { checkHitboxCollision, randomNumber } from '@src/utils';
 
 interface IPipes {
   topPipe: ISprite,

@@ -1,8 +1,8 @@
-import settings from './settings';
-import { GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum } from './models';
-import { TitleScreen } from './scenes/title-screen';
-import {Gameplay} from '@src/scenes/gameplay';
-import {ScoreScreen} from '@src/scenes/score-screen';
+import settings from '@src/settings';
+import { GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum } from '@src/models';
+import { TitleScreen } from '@src/scenes/title-screen';
+import { Gameplay } from '@src/scenes/gameplay';
+import { ScoreScreen } from '@src/scenes/score-screen';
 
 /**
  * Game class

@@ -1,12 +1,12 @@
 
 import resources from '@src/resources';
-import { BottomClouds } from "@src/bottom-clouds";
+import { BottomClouds } from "@src/objects/bottom-clouds";
 import { Button } from "@src/button";
-import { Plane } from "@src/plane";
-import { GameWorld } from "@src/world";
-import { Titles } from '@src/titles';
+import { Plane } from "@src/objects/plane";
+import { GameWorld } from "@src/objects/world";
+import { Titles } from '@src/objects/titles';
 import { GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum, PlaneStatesEnum } from '@src/models';
-import {Clouds} from '@src/clouds';
+import {Clouds} from '@src/objects/clouds';
 
 export class TitleScreen implements IGameScene {
 

@@ -1,7 +1,7 @@
-import gameResources from './resources';
-import settings from './settings';
-import { AnimationState, ISprite } from './models';
-import { drawSprite, randomNumber } from './utils';
+import gameResources from '@src/resources';
+import settings from '@src/settings';
+import { AnimationState, ISprite } from '@src/models';
+import { drawSprite, randomNumber } from '@src/utils';
 
 interface ICloudSprite extends ISprite {
   speed: number;

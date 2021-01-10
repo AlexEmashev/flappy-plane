@@ -1,4 +1,4 @@
-import settings from './settings';
+import settings from '@src/settings';
 export class GameWorld {
 
   private _skyGradient: CanvasGradient;

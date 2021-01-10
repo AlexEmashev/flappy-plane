@@ -1,9 +1,9 @@
 import resources from '@src/resources';
-import {BottomClouds} from "@src/bottom-clouds";
+import {BottomClouds} from "@src/objects/bottom-clouds";
 import {Button} from "@src/button";
 import {GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum} from "@src/models";
-import {Titles} from "@src/titles";
-import {GameWorld} from "@src/world";
+import {Titles} from "@src/objects/titles";
+import {GameWorld} from "@src/objects/world";
 
 export class ScoreScreen implements IGameScene {
   data = {

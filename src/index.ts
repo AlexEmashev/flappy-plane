@@ -1,6 +1,6 @@
 import "normalize.css/normalize.css";
 import './style.scss';
-import { Game } from './app';
+import { Game } from './objects/app';
 
 const game = new Game();
 game.init();
