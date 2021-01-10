@@ -5,7 +5,7 @@ import { drawSprite } from '@src/utils';
 const PLANE_SETTINGS = {
   spritesCount: 3,
   spriteFrameLimit: 5,
-  hitboxScale: 0.5
+  hitboxScale: 0.7
 };
 
 /**
@@ -30,8 +30,8 @@ export class Plane {
     return {
       x1: this.position.x + this.planeSprite.dWidth * scaleFactor,
       y1: this.position.y + this.planeSprite.dHeight * scaleFactor,
-      x2: (this.planeSprite.dWidth + this.planeSprite.dx) - (this.planeSprite.dWidth * scaleFactor),
-      y2: (this.planeSprite.dHeight + this.planeSprite.dy) - (this.planeSprite.dHeight * scaleFactor)
+      x2: (this.planeSprite.dWidth + this.position.x) - (this.planeSprite.dWidth * scaleFactor),
+      y2: (this.planeSprite.dHeight + this.position.y) - (this.planeSprite.dHeight * scaleFactor)
     };
   }
 
