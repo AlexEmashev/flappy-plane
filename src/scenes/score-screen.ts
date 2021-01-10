@@ -1,6 +1,6 @@
 import resources from '@src/resources';
 import {BottomClouds} from "@src/objects/bottom-clouds";
-import {Button} from "@src/button";
+import {Button} from "@src/objects/button";
 import {GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum} from "@src/models";
 import {Titles} from "@src/objects/titles";
 import {GameWorld} from "@src/objects/world";

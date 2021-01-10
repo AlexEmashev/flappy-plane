@@ -1,5 +1,5 @@
-import {IHitbox, IPoint, ISprite, ISpriteElement, MouseEventTypeEnum} from "./models";
-import {checkPointWithinBox, drawSprite} from "./utils";
+import { IHitbox, IPoint, ISprite, ISpriteElement, MouseEventTypeEnum } from "@src/models";
+import { checkPointWithinBox, drawSprite } from "@src/utils";
 
 export enum ButtonStateEnum {
   normal = 'normal',

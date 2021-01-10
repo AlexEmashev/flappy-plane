@@ -1,7 +1,7 @@
 
 import resources from '@src/resources';
 import { BottomClouds } from "@src/objects/bottom-clouds";
-import { Button } from "@src/button";
+import { Button } from "@src/objects/button";
 import { Plane } from "@src/objects/plane";
 import { GameWorld } from "@src/objects/world";
 import { Titles } from '@src/objects/titles';
