@@ -1,19 +1,19 @@
 import { BottomClouds } from "@src/bottom-clouds";
 import { Clouds } from "@src/clouds";
-import { AnimationState, GameState, IGameState, IPoint, MouseEventTypeEnum, PlaneStatesEnum } from "@src/models";
+import { AnimationState, GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum, PlaneStatesEnum } from "@src/models";
 import {Pipes} from "@src/pipes";
 import {Plane} from "@src/plane";
 import settings from "@src/settings";
 import {Titles} from "@src/titles";
 import {GameWorld} from "@src/world";
 
-export class Gameplay implements IGameState {
+export class Gameplay implements IGameScene {
   data = {
     score: 0
   };
-  goToStateCallback: (name: GameState) => void;
+  goToStateCallback: (name: GameSceneEnum) => void;
   updateGameScoreCallback: (score: number) => void;
-  name = GameState.Gameplay;
+  name = GameSceneEnum.Gameplay;
   isGameOver = false;
   gameOverSequenceFrames = 90;
   planePosition: IPoint;
@@ -79,7 +79,7 @@ export class Gameplay implements IGameState {
   renderGameOverSequence() {
     this.gameOverSequenceFrames -= 1;
     if (this.gameOverSequenceFrames === 0) {
-      this.goToStateCallback(GameState.ScoreScreen);
+      this.goToStateCallback(GameSceneEnum.ScoreScreen);
     }
 
     this.bottomClouds.animationState = AnimationState.pause;
@@ -106,6 +106,9 @@ export class Gameplay implements IGameState {
     }
     if (this.planeDeltaY >= 0) {
       this.plane.planeState = PlaneStatesEnum.flyUp;
+      if (this.planePosition.y < 0) {
+        this.planeDeltaY = 0;
+      }
     }
 
     // //ToDo: Remove me after debugging is done.

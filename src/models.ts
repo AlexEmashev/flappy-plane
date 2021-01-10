@@ -60,19 +60,18 @@ export interface ITextProperties {
   shadowColor?: string
 }
 
-export enum GameState {
+export enum GameSceneEnum {
   TitleScreen = 'TitleScreen',
   Gameplay = 'Gameplay',
-  GameOver = 'GameOver',
   ScoreScreen = 'ScoreScreen'
 }
 
-export interface IGameState {
+export interface IGameScene {
   data: {
     [key: string]: any;
   };
-  name: GameState;
-  goToStateCallback?: (name: GameState) => void;
+  name: GameSceneEnum;
+  goToStateCallback?: (name: GameSceneEnum) => void;
   userInput: (point: IPoint, eventType: MouseEventTypeEnum) => void;
   render: Function;
 }

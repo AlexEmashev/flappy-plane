@@ -5,13 +5,13 @@ import { Button } from "@src/button";
 import { Plane } from "@src/plane";
 import { GameWorld } from "@src/world";
 import { Titles } from '@src/titles';
-import { GameState, IGameState, IPoint, MouseEventTypeEnum, PlaneStatesEnum } from '@src/models';
+import { GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum, PlaneStatesEnum } from '@src/models';
 import {Clouds} from '@src/clouds';
 
-export class TitleScreen implements IGameState {
+export class TitleScreen implements IGameScene {
 
-  name: GameState.TitleScreen;
-  goToStateCallback: (name: GameState) => {};
+  name: GameSceneEnum.TitleScreen;
+  goToStateCallback: (name: GameSceneEnum) => {};
   data = {};
 
   private world: GameWorld;
@@ -52,7 +52,7 @@ export class TitleScreen implements IGameState {
 
   private startButtonClick() {
     if (this.goToStateCallback) {
-      this.goToStateCallback(GameState.Gameplay);
+      this.goToStateCallback(GameSceneEnum.Gameplay);
     }
   }
 }

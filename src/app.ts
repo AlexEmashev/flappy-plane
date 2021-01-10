@@ -1,8 +1,8 @@
 import settings from './settings';
-import { GameState, IGameState, IPoint, MouseEventTypeEnum } from './models';
-import { TitleScreen } from './states/title-screen';
-import {Gameplay} from '@src/states/gameplay';
-import {ScoreScreen} from '@src/states/score-screen';
+import { GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum } from './models';
+import { TitleScreen } from './scenes/title-screen';
+import {Gameplay} from '@src/scenes/gameplay';
+import {ScoreScreen} from '@src/scenes/score-screen';
 
 /**
  * Game class
@@ -11,14 +11,14 @@ import {ScoreScreen} from '@src/states/score-screen';
 export class Game {
   private gameScore = 0;
   private context: CanvasRenderingContext2D;
-  private currentState: IGameState;
+  private currentScene: IGameScene;
 
   /**
    * Call to start the game
    */
   init() {
     this.addCanvas();
-    this.setInitialGameState();
+    this.switchGameScene(GameSceneEnum.TitleScreen);
     this.setEventLoop();
   }
 
@@ -41,46 +41,39 @@ export class Game {
   }
 
   /**
-   * Sets initial state of the game.
-   */
-  private setInitialGameState() {
-    this.switchGameState(GameState.TitleScreen);
-  }
-
-  /**
    * Set game event loop
    */
   private setEventLoop() {
     setInterval(() => {
-      this.currentState.render();
+      this.currentScene.render();
     }, settings.gameRefreshRate);
   }
 
   /**
-   * Switches game to certain state
-   * @param stateName state to switch
+   * Switches game to certain scene
+   * @param sceneName scene to switch
    */
-  switchGameState(stateName: GameState) {
-    switch (stateName) {
-      case GameState.TitleScreen:
-        this.currentState = new TitleScreen(this.context);
+  switchGameScene(sceneName: GameSceneEnum) {
+    switch (sceneName) {
+      case GameSceneEnum.TitleScreen:
+        this.currentScene = new TitleScreen(this.context);
         break;
-        case GameState.Gameplay:
+        case GameSceneEnum.Gameplay:
         this.gameScore = 0;
-        this.currentState = new Gameplay(this.context);
+        this.currentScene = new Gameplay(this.context);
 
-        (this.currentState as Gameplay).updateGameScoreCallback = (score) => this.updateGameScore(score);
+        (this.currentScene as Gameplay).updateGameScoreCallback = (score) => this.updateGameScore(score);
         break;
-      case GameState.ScoreScreen:
-        this.currentState = new ScoreScreen(this.context);
-        (this.currentState as ScoreScreen).data.score = this.gameScore;
+      case GameSceneEnum.ScoreScreen:
+        this.currentScene = new ScoreScreen(this.context);
+        (this.currentScene as ScoreScreen).data.score = this.gameScore;
         break;
       default:
-        this.currentState = new TitleScreen(this.context);
+        this.currentScene = new TitleScreen(this.context);
         break;
     }
 
-    this.currentState.goToStateCallback = (stateName) => this.switchGameState(stateName);
+    this.currentScene.goToStateCallback = (sceneName) => this.switchGameScene(sceneName);
   }
 
   /**
@@ -89,8 +82,8 @@ export class Game {
    * @param eventType type of event (click, hover etc.)
    */
   userInput(point: IPoint, eventType: MouseEventTypeEnum) {
-    if (this.currentState) {
-      this.currentState.userInput(point, eventType);
+    if (this.currentScene) {
+      this.currentScene.userInput(point, eventType);
     }
   }
 

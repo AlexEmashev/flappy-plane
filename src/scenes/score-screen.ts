@@ -1,15 +1,15 @@
 import resources from '@src/resources';
 import {BottomClouds} from "@src/bottom-clouds";
 import {Button} from "@src/button";
-import {GameState, IGameState, IPoint, MouseEventTypeEnum} from "@src/models";
+import {GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum} from "@src/models";
 import {Titles} from "@src/titles";
 import {GameWorld} from "@src/world";
 
-export class ScoreScreen implements IGameState {
+export class ScoreScreen implements IGameScene {
   data = {
     score: 0
   };
-  name = GameState.ScoreScreen;
+  name = GameSceneEnum.ScoreScreen;
 
   private world: GameWorld;
   private bottomClouds: BottomClouds;
@@ -26,7 +26,7 @@ export class ScoreScreen implements IGameState {
       resources.againButtonSprites[1],
       resources.againButtonSprites[2]
     );
-    this.againButton.onClick(() => this.goToStateCallback(GameState.Gameplay));
+    this.againButton.onClick(() => this.goToStateCallback(GameSceneEnum.TitleScreen));
   }
 
   render() {
@@ -37,7 +37,7 @@ export class ScoreScreen implements IGameState {
     this.againButton.draw();
   }
 
-  goToStateCallback: (name: GameState) => void;
+  goToStateCallback: (name: GameSceneEnum) => void;
   userInput(point: IPoint, eventType: MouseEventTypeEnum) {
     this.againButton.mouseEventHandler(point, eventType);
   };

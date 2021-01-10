@@ -8,8 +8,6 @@ const PLANE_SETTINGS = {
   hitboxScale: 0.5
 };
 
-
-
 /**
  * Class for plane sprite
  */
@@ -30,8 +28,8 @@ export class Plane {
     // Make hitbox smaller than actual sprite size.
     const scaleFactor = 1 - PLANE_SETTINGS.hitboxScale;
     return {
-      x1: this.planeSprite.dx + this.planeSprite.dWidth * scaleFactor,
-      y1: this.planeSprite.dy + this.planeSprite.dHeight * scaleFactor,
+      x1: this.position.x + this.planeSprite.dWidth * scaleFactor,
+      y1: this.position.y + this.planeSprite.dHeight * scaleFactor,
       x2: (this.planeSprite.dWidth + this.planeSprite.dx) - (this.planeSprite.dWidth * scaleFactor),
       y2: (this.planeSprite.dHeight + this.planeSprite.dy) - (this.planeSprite.dHeight * scaleFactor)
     };
@@ -59,20 +57,25 @@ export class Plane {
   draw() {
     let spriteNumber = this.getSpriteNumber();
 
-    let spriteToDraw;
+    let planeSprite;
     switch (this._planeState) {
       case PlaneStatesEnum.flyDown:
-        spriteToDraw = gameResources.planeDownSprites[spriteNumber];
+        planeSprite = gameResources.planeDownSprites[spriteNumber];
         break;
       case PlaneStatesEnum.flyUp:
-        spriteToDraw = gameResources.planeUpSprites[spriteNumber];
+        planeSprite = gameResources.planeUpSprites[spriteNumber];
           break;
       default:
         break;
     }
 
-    spriteToDraw.dx = this.position.x;
-    spriteToDraw.dy = this.position.y;
+    // Don't mutate initial sprite
+    const spriteToDraw: ISpriteElement = {
+      ...planeSprite,
+      dx: this.position.x,
+      dy: this.position.y
+    };
+
     drawSprite(spriteToDraw, this.context);
   }
 
