@@ -1,8 +1,9 @@
 import "normalize.css/normalize.css";
 import './style.scss';
-import app from './app';
+import { Game } from './app';
 
-app();
+const game = new Game();
+game.init();
 
 if('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

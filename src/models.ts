@@ -61,8 +61,29 @@ export interface ITextProperties {
 }
 
 export enum GameState {
-  TitleScreen,
-  Gameplay,
-  GameOver,
-  ScoreScreen
+  TitleScreen = 'TitleScreen',
+  Gameplay = 'Gameplay',
+  GameOver = 'GameOver',
+  ScoreScreen = 'ScoreScreen'
+}
+
+export interface IGameState {
+  data: {
+    [key: string]: any;
+  };
+  name: GameState;
+  goToStateCallback?: (name: GameState) => void;
+  userInput: (point: IPoint, eventType: MouseEventTypeEnum) => void;
+  render: Function;
+}
+
+export enum PlaneStatesEnum {
+  flyDown = 'flyDown',
+  flyUp = 'flyUp',
+  crash = 'crash'
+}
+
+export enum AnimationState {
+  play,
+  pause
 }

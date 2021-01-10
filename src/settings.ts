@@ -2,6 +2,7 @@ export default  {
   worldWidth: 320,
   worldHeight: 568,
   gravity: 0.5,
+  defaultPlaneDeltaY: 9,
   gameRefreshRate: 24,
   canvasName: 'GameCanvas',
   worldBackground: {

@@ -1,116 +1,100 @@
 import settings from './settings';
-import gameResources from './resources';
-import { BottomClouds } from './bottom-clouds';
-import { Plane } from './plane';
-import { Clouds } from './clouds';
-import { Pipes } from './pipes';
-import { Titles } from './titles';
-import { Button } from './button';
-import { GameState, IPoint, MouseEventTypeEnum } from './models';
-import { GameWorld } from './world';
-/**
- * Initializes the game
- */
-export default function init() {
-  const context = addCanvas();
-
-  setEventLoop(context);
-}
-
-const buttons: Button[] = [];
-const gameState: GameState = GameState.TitleScreen
-
-function addCanvas(): CanvasRenderingContext2D {
-  const gameContainerEl = document.getElementById('game');
-  const canvas = document.createElement('canvas');
-  const canvasContext = canvas.getContext('2d');
-  canvas.id = settings.canvasName;
-  canvas.width = settings.worldWidth;
-  canvas.height = settings.worldHeight;
-
-  canvas.onmousemove = (e) => mouseEvent({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.move);
-  canvas.onmousedown = (e) => mouseEvent({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.down);
-  canvas.onmouseup = (e) => mouseEvent({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.up);
-
-  gameContainerEl.appendChild(canvas);
-  return canvasContext;
-}
-
-function setEventLoop(context: CanvasRenderingContext2D) {
-  const bottomClouds = new BottomClouds(context);
-  const plane = new Plane(context);
-  const clouds = new Clouds(context);
-  const pipes = new Pipes(context);
-  const titles = new Titles(context);
-  const world = new GameWorld(context);
-
-  const startButton = new Button(
-    context,
-    gameResources.startButtonSprites[0],
-    gameResources.startButtonSprites[1],
-    gameResources.startButtonSprites[2]
-  );
-  const againButton = new Button(
-    context,
-    gameResources.againButtonSprites[0],
-    gameResources.againButtonSprites[1],
-    gameResources.againButtonSprites[2]
-  )
-
-  startButton.onHover(() => {
-    console.log(`🔰 button hover!`);
-  });
-
-  startButton.onUp(() => {
-    console.log(`🔰 button pressed!`);
-  })
-
-  buttons.push(startButton);
-  buttons.push(againButton);
-
-  setInterval(() => {
-    // Check collision
-    pipes.checkCollision(plane.hitbox);
-    // Draw objects
-    world.draw();
-    bottomClouds.draw();
-    clouds.draw();
-    titles.drawGameTitle();
-    titles.drawGameOverTitle();
-    titles.drawScore();
-    titles.drawFinalScore()
-    againButton.draw();
-    startButton.draw();
-    pipes.draw();
-    plane.draw();
-  }, settings.gameRefreshRate);
-}
+import { GameState, IGameState, IPoint, MouseEventTypeEnum } from './models';
+import { TitleScreen } from './states/title-screen';
+import {Gameplay} from '@src/states/gameplay';
+import {ScoreScreen} from '@src/states/score-screen';
 
 /**
- * Handles mouse events from canvas
- * @param point pointer position
- * @param eventType type of event
+ * Game class
+ * To start the game use init() function
  */
-function mouseEvent(point: IPoint, eventType: MouseEventTypeEnum) {
-  buttons.forEach(button => button.mouseEventHandler(point, eventType));
-}
+export class Game {
+  private gameScore = 0;
+  private context: CanvasRenderingContext2D;
+  private currentState: IGameState;
 
-function gameStateRender() {
-  switch (gameState) {
-    case GameState.TitleScreen:
-      gameStateTitleScreen();
-      break;
-    case GameState.Gameplay:
-      break;
-    case GameState.GameOver:
-      break;
-    case GameState.ScoreScreen:
-      break;
-    default:
-      break;
+  /**
+   * Call to start the game
+   */
+  init() {
+    this.addCanvas();
+    this.setInitialGameState();
+    this.setEventLoop();
   }
-}
 
-function gameStateTitleScreen() {
+  /**
+   * Adds canvas to draw the game
+   */
+  private addCanvas() {
+    const gameContainerEl = document.getElementById('game');
+    const canvas = document.createElement('canvas');
+    canvas.id = settings.canvasName;
+    canvas.width = settings.worldWidth;
+    canvas.height = settings.worldHeight;
+    this.context = canvas.getContext('2d');
 
+    canvas.onmousemove = (e) => this.userInput({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.move);
+    canvas.onmousedown = (e) => this.userInput({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.down);
+    canvas.onmouseup = (e) => this.userInput({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.up);
+
+    gameContainerEl.appendChild(canvas);
+  }
+
+  /**
+   * Sets initial state of the game.
+   */
+  private setInitialGameState() {
+    this.switchGameState(GameState.TitleScreen);
+  }
+
+  /**
+   * Set game event loop
+   */
+  private setEventLoop() {
+    setInterval(() => {
+      this.currentState.render();
+    }, settings.gameRefreshRate);
+  }
+
+  /**
+   * Switches game to certain state
+   * @param stateName state to switch
+   */
+  switchGameState(stateName: GameState) {
+    switch (stateName) {
+      case GameState.TitleScreen:
+        this.currentState = new TitleScreen(this.context);
+        break;
+        case GameState.Gameplay:
+        this.gameScore = 0;
+        this.currentState = new Gameplay(this.context);
+
+        (this.currentState as Gameplay).updateGameScoreCallback = (score) => this.updateGameScore(score);
+        break;
+      case GameState.ScoreScreen:
+        this.currentState = new ScoreScreen(this.context);
+        (this.currentState as ScoreScreen).data.score = this.gameScore;
+        break;
+      default:
+        this.currentState = new TitleScreen(this.context);
+        break;
+    }
+
+    this.currentState.goToStateCallback = (stateName) => this.switchGameState(stateName);
+  }
+
+  /**
+   * Global handler for user input.
+   * @param point point on canvas
+   * @param eventType type of event (click, hover etc.)
+   */
+  userInput(point: IPoint, eventType: MouseEventTypeEnum) {
+    if (this.currentState) {
+      this.currentState.userInput(point, eventType);
+    }
+  }
+
+  updateGameScore(score: number) {
+    this.gameScore = score;
+  }
 }

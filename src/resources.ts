@@ -53,7 +53,7 @@ class GameResourcesService {
         sWidth: 373,
         sHeight: 50,
         dx: settings.worldWidth / 7.1,
-        dy: settings.worldHeight / 2.84,
+        dy: settings.worldHeight / 5.8,
         dWidth: settings.worldWidth / 1.3,
         dHeight: settings.worldHeight / 12.6
       }
@@ -156,7 +156,7 @@ class GameResourcesService {
         sWidth: spriteSizes.sWidth,
         sHeight: spriteSizes.sHeight,
         dx: settings.worldWidth / 4,
-        dy: settings.worldHeight / 1.9,
+        dy: settings.worldHeight / 1.6,
         dWidth: settings.worldWidth / 2.13,
         dHeight: settings.worldHeight / 16.22
       }
@@ -208,10 +208,6 @@ class GameResourcesService {
 
     this._planeDownSprites = this.planeSprites.slice(0, 3);
     return this._planeDownSprites;
-  }
-
-  private constructor() {
-    console.log('🔰 GameResourcesService initialized!');
   }
 
   public static getInstance(): GameResourcesService {

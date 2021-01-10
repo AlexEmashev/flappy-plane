@@ -44,15 +44,15 @@ export class Titles {
   drawFinalScore(score: number = 0) {
     const finalScore = `score: ${score}`;
 
-    const letterWidth = 14;
+    const letterWidth = 10;
     const offset = finalScore.toString().length * letterWidth;
 
     drawText({
       text: finalScore.toString(),
       x: settings.worldWidth / 2 - offset,
-      y: settings.worldHeight / 8,
+      y: settings.worldHeight / 2.7,
       color: 'white',
-      font: '48px monospace',
+      font: '36px monospace',
       shadowColor: '#04132358'
     }, this.context);
   }

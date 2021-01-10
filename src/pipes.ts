@@ -1,4 +1,4 @@
-import { IHitbox, ISprite } from './models';
+import { AnimationState, IHitbox, IPoint, ISprite } from './models';
 import gameResources from './resources';
 import settings from './settings';
 import { checkHitboxCollision, randomNumber } from './utils';
@@ -17,22 +17,38 @@ const PIPES_SETTINGS = {
 
 export class Pipes {
 
+  animationState = AnimationState.play;
+  position: IPoint;
+  pipesGeneration = 0;
   private pipes: IPipes;
 
   constructor(private context: CanvasRenderingContext2D) {
     this.pipes = this.getPipes();
+    this.position = {
+      x: this.pipes.topPipe.x,
+      y: this.pipes.topPipe.y
+    };
   }
 
   /**
    * Draws pipes using passed context
    */
   draw() {
-    this.pipes.topPipe.x -= PIPES_SETTINGS.speed;
-    this.pipes.bottomPipe.x -= PIPES_SETTINGS.speed;
+
+    if (this.animationState === AnimationState.play) {
+      this.pipes.topPipe.x -= PIPES_SETTINGS.speed;
+      this.pipes.bottomPipe.x = this.pipes.topPipe.x;
+    }
 
     if (this.pipes.topPipe.x + PIPES_SETTINGS.width < 0 ) {
       this.pipes = this.getPipes();
+      this.pipesGeneration++;
     }
+
+    // Update current position after generation increase
+    // Otherwise it would be updated only on the next draw.
+    this.position.x = this.pipes.topPipe.x;
+    this.position.y = this.pipes.topPipe.y;
 
     this.context.drawImage(
       this.pipes.topPipe.sprite,
@@ -68,21 +84,12 @@ export class Pipes {
       y2: this.pipes.bottomPipe.y + this.pipes.bottomPipe.height
     };
 
-    if (checkHitboxCollision(hitbox, topPipeHitbox)) {
-      console.log(`🔰 Collide with top pipe`);
-      return true;
-    }
-
-    if (checkHitboxCollision(hitbox, bottomPipeHibox)) {
-      console.log(`🔰 Collide with bottom pipe`);
+    if (checkHitboxCollision(hitbox, topPipeHitbox) || checkHitboxCollision(hitbox, bottomPipeHibox)) {
       return true;
     }
 
     return false;
   }
-
-
-
 
   /**
    * Creates pipe objects

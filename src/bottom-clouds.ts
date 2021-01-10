@@ -1,6 +1,6 @@
 import settings from './settings';
 import gameResourcesService from './resources';
-import { ISprite } from './models';
+import { AnimationState, ISprite } from './models';
 import { drawSprite } from './utils';
 
 /**
@@ -8,6 +8,7 @@ import { drawSprite } from './utils';
  */
 export class BottomClouds {
 
+  animationState = AnimationState.play;
   private cloudsWidth = settings.worldWidth / 1.28;
   private cloudsHeight = settings.worldHeight / 5.68;
   private cloudsSpeed = 2;
@@ -33,14 +34,13 @@ export class BottomClouds {
    * Draws bottom cloud line
    */
   draw() {
-    // Move all cloud tiles across X axis
-    this.cloudTiles.map(cloud => cloud.x -= this.cloudsSpeed);
+    if (this.animationState === AnimationState.play) {
+      // Move all cloud tiles across X axis
+      this.cloudTiles.map(cloud => cloud.x -= this.cloudsSpeed);
 
-    // ToDo: in generic algorithm if speed is too big we should check
-    // all sprites to be within the screen boundaries
-
-    // Remove off screen tile
-    this.cloudTiles = this.cloudTiles.filter(cloud => cloud.x + cloud.width >= 0);
+      // Remove off screen tile
+      this.cloudTiles = this.cloudTiles.filter(cloud => cloud.x + cloud.width >= 0);
+    }
 
     // Add tile to be drawn
     const lastCloud = this.cloudTiles[this.cloudTiles.length - 1];

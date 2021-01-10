@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "noEmit": true,
+    "baseUrl": ".",
     "outDir": "./dist/",
     "noImplicitAny": true,
     "module": "es6",
@@ -8,6 +12,9 @@
     "allowJs": true,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@src/*": ["./src/*"]
+    }
   }
 }

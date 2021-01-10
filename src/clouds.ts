@@ -1,6 +1,6 @@
 import gameResources from './resources';
 import settings from './settings';
-import { ISprite } from './models';
+import { AnimationState, ISprite } from './models';
 import { drawSprite, randomNumber } from './utils';
 
 interface ICloudSprite extends ISprite {
@@ -25,6 +25,7 @@ const CLOUDS_SETTINGS = {
 
 export class Clouds {
 
+  animationState = AnimationState.play;
   private clouds: ICloudSprite[] = [];
 
   constructor(private context: CanvasRenderingContext2D) {
@@ -49,11 +50,13 @@ export class Clouds {
   }
 
   draw() {
-    this.clouds.map(cloud => cloud.x -= cloud.speed)
-    this.clouds = this.clouds.filter(cloud => cloud.x + cloud.width >= 0);
+    if (this.animationState === AnimationState.play) {
+      this.clouds.map(cloud => cloud.x -= cloud.speed)
+      this.clouds = this.clouds.filter(cloud => cloud.x + cloud.width >= 0);
 
-    if (!this.clouds.length) {
-      this.clouds.push(this.getNewCloud());
+      if (!this.clouds.length) {
+        this.clouds.push(this.getNewCloud());
+      }
     }
 
     for (const cloud of this.clouds) {

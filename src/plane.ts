@@ -1,28 +1,27 @@
-import {IHitbox, ISpriteElement} from './models';
+import { AnimationState, IHitbox, IPoint, ISpriteElement, PlaneStatesEnum } from './models';
 import gameResources from './resources';
-import {drawSprite} from './utils';
+import { drawSprite } from './utils';
 
 const PLANE_SETTINGS = {
   spritesCount: 3,
   spriteFrameLimit: 5,
-  hitboxScale: 0.8
+  hitboxScale: 0.5
 };
 
-enum planeStates {
-  flyDown = 'flyDown',
-  flyUp = 'flyUp',
-  crash = 'crash'
-}
+
 
 /**
  * Class for plane sprite
  */
 export class Plane {
+  animationState = AnimationState.play;
+  position: IPoint;
 
-  planeState = planeStates.flyUp;
+  private _planeState = PlaneStatesEnum.flyDown;
   private spriteNumber = 0;
   private currentSpriteFrame = 0;
   private planeSprite: ISpriteElement;
+
 
   /**
    * Returns plane hitbox.
@@ -38,9 +37,20 @@ export class Plane {
     };
   }
 
+  /**
+   * Sets current plane state
+   */
+  set planeState(state: PlaneStatesEnum) {
+    this._planeState = state;
+  }
+
   constructor(private context: CanvasRenderingContext2D) {
-    this.planeState = planeStates.flyDown;
+    this._planeState = PlaneStatesEnum.flyDown;
     this.planeSprite = gameResources.planeDownSprites[0];
+    this.position = {
+      x: this.planeSprite.dx,
+      y: this.planeSprite.dy
+    };
   }
 
   /**
@@ -49,23 +59,30 @@ export class Plane {
   draw() {
     let spriteNumber = this.getSpriteNumber();
 
-    switch (this.planeState) {
-      case planeStates.flyDown:
-        drawSprite(gameResources.planeDownSprites[spriteNumber], this.context);
+    let spriteToDraw;
+    switch (this._planeState) {
+      case PlaneStatesEnum.flyDown:
+        spriteToDraw = gameResources.planeDownSprites[spriteNumber];
         break;
-      case planeStates.flyUp:
-        drawSprite(gameResources.planeUpSprites[spriteNumber], this.context);
-        break;
+      case PlaneStatesEnum.flyUp:
+        spriteToDraw = gameResources.planeUpSprites[spriteNumber];
+          break;
       default:
         break;
     }
+
+    spriteToDraw.dx = this.position.x;
+    spriteToDraw.dy = this.position.y;
+    drawSprite(spriteToDraw, this.context);
   }
 
   /**
    * Returns sprite number to draw
    */
   private getSpriteNumber(): number {
-    this.currentSpriteFrame++;
+    if (this.animationState === AnimationState.play) {
+      this.currentSpriteFrame++;
+    }
 
     if (this.currentSpriteFrame === PLANE_SETTINGS.spriteFrameLimit) {
       this.currentSpriteFrame = 0;
