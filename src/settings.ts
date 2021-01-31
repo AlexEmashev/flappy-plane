@@ -1,13 +1,15 @@
 export default  {
-  worldWidth: 320,
-  worldHeight: 568,
+  aspectRatio: 0.5625,
+  scaleFactor: 1,
+  worldWidth: 360,
+  worldHeight: 640,
   gravity: 0.5,
   defaultPlaneDeltaY: 9,
   gameRefreshRate: 24,
   canvasName: 'GameCanvas',
   worldBackground: {
-    top: '#43ABB5',
-    bottom: '#FFF'
+    top: '#4d9da5',
+    bottom: '#c1dcdf'
   },
   sprites: {
     cloud1: 'assets/cloud1.svg',

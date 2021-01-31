@@ -12,7 +12,7 @@ export class Game {
   private gameScore = 0;
   private context: CanvasRenderingContext2D;
   private currentScene: IGameScene;
-
+  private canvas: HTMLCanvasElement;
   /**
    * Call to start the game
    */
@@ -26,18 +26,15 @@ export class Game {
    * Adds canvas to draw the game
    */
   private addCanvas() {
-    const gameContainerEl = document.getElementById('game');
-    const canvas = document.createElement('canvas');
-    canvas.id = settings.canvasName;
-    canvas.width = settings.worldWidth;
-    canvas.height = settings.worldHeight;
-    this.context = canvas.getContext('2d');
+    this.canvas = document.getElementById('GameCanvas') as HTMLCanvasElement;
+    this.setScale();
 
-    canvas.onmousemove = (e) => this.userInput({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.move);
-    canvas.onmousedown = (e) => this.userInput({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.down);
-    canvas.onmouseup = (e) => this.userInput({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.up);
+    this.context = this.canvas.getContext('2d');
+    window.onresize = (() => this.setScale());
 
-    gameContainerEl.appendChild(canvas);
+    this.canvas.onmousemove = (e) => this.userInput({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.move);
+    this.canvas.onmousedown = (e) => this.userInput({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.down);
+    this.canvas.onmouseup = (e) => this.userInput({x: e.offsetX, y: e.offsetY}, MouseEventTypeEnum.up);
   }
 
   /**
@@ -87,7 +84,21 @@ export class Game {
     }
   }
 
+  /**
+   * Updates game score
+   * @param score game score
+   */
   updateGameScore(score: number) {
     this.gameScore = score;
+  }
+
+  /**
+   * Recalculate window scale
+   */
+  setScale() {
+    settings.scaleFactor = this.canvas.clientHeight / settings.worldHeight; // Set scale factor for graphics
+    // Resize canvas according to window size (so graphics could scale properly without pixelization)
+    this.canvas.height = this.canvas.clientHeight;
+    this.canvas.width = this.canvas.clientHeight * settings.aspectRatio;
   }
 }

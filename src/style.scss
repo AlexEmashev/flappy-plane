@@ -3,14 +3,22 @@
 /* COLORS */
 $deepBlue: #2c303a;
 
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
   background-color: $deepBlue;
 }
 
 .game-window {
+  height: 100%;
+  overflow: hidden;
   margin: 0;
+  text-align:center;
 }
 
-#game {
-  text-align:center;
+#GameCanvas {
+  height: 100%;
 }

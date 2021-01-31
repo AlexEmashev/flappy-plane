@@ -7,11 +7,10 @@ import { drawSprite } from '@src/utils';
  * Draws bottom clouds line
  */
 export class BottomClouds {
-
   animationState = AnimationState.play;
+  cloudsSpeed = 2;
   private cloudsWidth = settings.worldWidth / 1.28;
   private cloudsHeight = settings.worldHeight / 5.68;
-  private cloudsSpeed = 2;
   private cloudTiles: ISprite[] = [];
 
   constructor(private context: CanvasRenderingContext2D) {
@@ -24,9 +23,8 @@ export class BottomClouds {
         y: settings.worldHeight - this.cloudsHeight,
         width: this.cloudsWidth,
         height: this.cloudsHeight,
-
       });
-      currentSpritePosition += this.cloudsWidth;
+      currentSpritePosition += this.cloudsWidth - 1; // -1 to remove small gap artifact between clouds
     }
   }
 
@@ -44,9 +42,11 @@ export class BottomClouds {
 
     // Add tile to be drawn
     const lastCloud = this.cloudTiles[this.cloudTiles.length - 1];
-    const lastCloudRightBorderCoordinate = lastCloud.x + lastCloud.width;
+    // Coordinates of the right most cloud (-1px to remove small gap artifact between sprites)
+    const lastCloudRightBorderCoordinate = lastCloud.x + lastCloud.width - 1;
 
-    if (lastCloudRightBorderCoordinate < settings.worldWidth) {
+    // When right most cloud fully drawn to display add next one
+    if (lastCloudRightBorderCoordinate <= settings.worldWidth) {
       this.cloudTiles.push({
         sprite: gameResourcesService.bottomCloudsImg,
         x: lastCloudRightBorderCoordinate,

@@ -55,7 +55,8 @@ export interface ITextProperties {
   text: string,
   x: number,
   y: number,
-  font: string,
+  fontSize: number,
+  fontName: string,
   color: string,
   shadowColor?: string
 }

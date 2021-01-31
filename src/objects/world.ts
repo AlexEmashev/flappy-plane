@@ -1,4 +1,5 @@
 import settings from '@src/settings';
+import {drawRectangle} from '@src/utils';
 export class GameWorld {
 
   private _skyGradient: CanvasGradient;
@@ -14,7 +15,6 @@ export class GameWorld {
   }
 
   draw() {
-    this.context.fillStyle = this.skyGradient;
-    this.context.fillRect(0, 0, settings.worldWidth, settings.worldHeight);
+    drawRectangle(0, 0, settings.worldWidth, settings.worldHeight, this.skyGradient, this.context);
   }
 }

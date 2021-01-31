@@ -32,7 +32,8 @@ export class Titles {
       x: settings.worldWidth / 2 - offset,
       y: settings.worldHeight / 7,
       color: 'white',
-      font: '64px monospace',
+      fontSize: 64,
+      fontName: 'monospace',
       shadowColor: '#04132358'
     }, this.context);
   }
@@ -52,7 +53,8 @@ export class Titles {
       x: settings.worldWidth / 2 - offset,
       y: settings.worldHeight / 2.7,
       color: 'white',
-      font: '36px monospace',
+      fontSize: 36,
+      fontName: 'monospace',
       shadowColor: '#04132358'
     }, this.context);
   }

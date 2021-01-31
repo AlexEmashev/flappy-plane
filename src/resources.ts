@@ -178,16 +178,17 @@ class GameResourcesService {
 
     // ToDo: rename sprite to image in ISprite and ISpriteElement
     this._planeSprites = [0, 1, 2, 3, 4, 5].map(spriteNumber => {
+      const spriteHeight = settings.worldHeight / 5.68;
       return {
         sprite: this.planeImg,
         sx: spriteXCoordinates[spriteNumber],
         sy: spriteYCoordinate,
         sWidth: spriteSize.sWidth,
         sHeight: spriteSize.sHeight,
-        dx: 100,
-        dy: 220,
+        dx: settings.worldWidth / 10,
+        dy: settings.worldHeight / 2 - spriteHeight / 2,
         dWidth: settings.worldWidth / 3.2,
-        dHeight: settings.worldHeight / 5.68
+        dHeight: spriteHeight
       }
     });
 

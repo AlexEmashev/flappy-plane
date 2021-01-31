@@ -3,7 +3,7 @@ import { BottomClouds } from "@src/objects/bottom-clouds";
 import { Clouds } from "@src/objects/clouds";
 import { AnimationState, GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum, PlaneStatesEnum } from "@src/models";
 import { Pipes } from "@src/objects/pipes";
-import { Plane } from "@src/objects/plane";
+import { Plane, PLANE_POSITIONS } from "@src/objects/plane";
 import { Titles } from "@src/objects/titles";
 import { GameWorld } from "@src/objects/world";
 
@@ -33,6 +33,7 @@ export class Gameplay implements IGameScene {
     this.clouds = new Clouds(this.context);
     this.plane = new Plane(this.context);
     this.plane.planeState = PlaneStatesEnum.flyDown;
+    this.plane.setPosition(PLANE_POSITIONS.gameStart);
     this.planePosition = this.plane.position;
     this.pipes = new Pipes(this.context);
     this.pipesGeneration = -1;

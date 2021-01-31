@@ -1,7 +1,7 @@
 import { AnimationState, IHitbox, IPoint, ISprite } from '@src/models';
 import gameResources from '@src/resources';
 import settings from '@src/settings';
-import { checkHitboxCollision, randomNumber } from '@src/utils';
+import { checkHitboxCollision, drawSprite, randomNumber } from '@src/utils';
 
 interface IPipes {
   topPipe: ISprite,
@@ -50,21 +50,8 @@ export class Pipes {
     this.position.x = this.pipes.topPipe.x;
     this.position.y = this.pipes.topPipe.y;
 
-    this.context.drawImage(
-      this.pipes.topPipe.sprite,
-      this.pipes.topPipe.x,
-      this.pipes.topPipe.y,
-      this.pipes.topPipe.width,
-      this.pipes.topPipe.height
-    );
-
-    this.context.drawImage(
-      this.pipes.bottomPipe.sprite,
-      this.pipes.bottomPipe.x,
-      this.pipes.bottomPipe.y,
-      this.pipes.bottomPipe.width,
-      this.pipes.bottomPipe.height
-    );
+    drawSprite(this.pipes.topPipe, this.context);
+    drawSprite(this.pipes.bottomPipe, this.context);
   }
 
   /**
@@ -97,7 +84,7 @@ export class Pipes {
   private getPipes(): IPipes {
     const pipesOffset = randomNumber(PIPES_SETTINGS.gap / 2, settings.worldHeight - PIPES_SETTINGS.gap / 2);
 
-    let topPipeOffset =  (0 - PIPES_SETTINGS.height) + pipesOffset - PIPES_SETTINGS.gap / 2;
+    let topPipeOffset = (0 - PIPES_SETTINGS.height) + pipesOffset - PIPES_SETTINGS.gap / 2;
     let bottomPipeOffset = pipesOffset + PIPES_SETTINGS.gap / 2;
 
     return {

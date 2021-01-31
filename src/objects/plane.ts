@@ -1,5 +1,6 @@
 import { AnimationState, IHitbox, IPoint, ISpriteElement, PlaneStatesEnum } from '@src/models';
 import gameResources from '@src/resources';
+import settings from '@src/settings';
 import { drawSprite } from '@src/utils';
 
 const PLANE_SETTINGS = {
@@ -8,17 +9,22 @@ const PLANE_SETTINGS = {
   hitboxScale: 0.7
 };
 
+export enum PLANE_POSITIONS {
+  screenCenter,
+  gameStart
+}
+
 /**
  * Class for plane sprite
  */
 export class Plane {
   animationState = AnimationState.play;
   position: IPoint;
+  planeSprite: ISpriteElement;
 
   private _planeState = PlaneStatesEnum.flyDown;
   private spriteNumber = 0;
   private currentSpriteFrame = 0;
-  private planeSprite: ISpriteElement;
 
 
   /**
@@ -77,6 +83,24 @@ export class Plane {
     };
 
     drawSprite(spriteToDraw, this.context);
+  }
+
+  setPosition(planePosition: PLANE_POSITIONS) {
+    switch (planePosition) {
+      case PLANE_POSITIONS.screenCenter:
+        this.position = {
+          x: settings.worldWidth / 2 - this.planeSprite.dWidth / 2,
+          y: settings.worldHeight / 2 - this.planeSprite.dHeight / 2
+        };
+        break;
+      case PLANE_POSITIONS.gameStart:
+      default:
+        this.position = {
+          x: settings.worldWidth / 6,
+          y: settings.worldHeight / 2 - this.planeSprite.dHeight / 2
+        };
+        break;
+    }
   }
 
   /**

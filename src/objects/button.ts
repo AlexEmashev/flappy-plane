@@ -1,6 +1,9 @@
 import { IHitbox, IPoint, ISprite, ISpriteElement, MouseEventTypeEnum } from "@src/models";
 import { checkPointWithinBox, drawSprite } from "@src/utils";
 
+/**
+ * Represent button state
+ */
 export enum ButtonStateEnum {
   normal = 'normal',
   hover = 'hover',
@@ -11,8 +14,31 @@ export enum ButtonStateEnum {
  * Class for button object
  */
 export class Button {
-  hitbox: IHitbox;
   buttonState = ButtonStateEnum.normal;
+
+  /**
+   * Returns button hitbox
+   */
+  get hitbox(): IHitbox {
+    const sprite = this.spriteNormal as ISprite;
+    const spriteElement = this.spriteNormal as ISpriteElement;
+
+    if (spriteElement.dx) {
+      return {
+        x1: spriteElement.dx,
+        x2: spriteElement.dx + spriteElement.dWidth,
+        y1: spriteElement.dy,
+        y2: spriteElement.dy + spriteElement.dHeight
+      };
+    }
+
+    return {
+      x1: sprite.x,
+      x2: sprite.x + sprite.width,
+      y1: sprite.y,
+      y2: sprite.y + sprite.height
+    };
+  }
 
   private hoverCallback: () => void;
   private pressCallback: () => void;
@@ -25,25 +51,6 @@ export class Button {
     private spriteHover: ISprite|ISpriteElement,
     private spritePress: ISprite|ISpriteElement,
     ) {
-    const sprite = spriteNormal as ISprite;
-    const spriteElement = spriteNormal as ISpriteElement;
-
-    if (spriteElement.dx) {
-      this.hitbox = {
-        x1: spriteElement.dx,
-        x2: spriteElement.dx + spriteElement.dWidth,
-        y1: spriteElement.dy,
-        y2: spriteElement.dy + spriteElement.dHeight
-      };
-      return;
-    }
-
-    this.hitbox = {
-      x1: sprite.x,
-      x2: sprite.x + sprite.width,
-      y1: sprite.y,
-      y2: sprite.y + sprite.height
-    };
   }
 
   /**
@@ -66,6 +73,52 @@ export class Button {
         return;
       default:
         return;
+    }
+  }
+
+  /**
+   * Registers callback for hover event over the button
+   * @param callback
+   */
+  onHover(callback: () => void) {
+    this.hoverCallback = callback;
+  }
+
+  /**
+   * Registers callback for button press
+   * @param callback
+   */
+  onPress(callback: () => void) {
+    this.pressCallback = callback;
+  }
+
+  /**
+   * Register callback when button was released after press
+   * @param callback
+   */
+  onUp(callback: () => void) {
+    this.upCallback = callback;
+  }
+
+  /**
+   * Register callback of button click
+   * @param callback
+   */
+  onClick(callback: () => void) {
+    this.clickCallback = callback;
+  }
+
+  draw(): void {
+    switch (this.buttonState) {
+      case ButtonStateEnum.hover:
+        drawSprite(this.spriteHover, this.context);
+        break;
+      case ButtonStateEnum.down:
+        drawSprite(this.spritePress, this.context);
+        break;
+      default:
+        drawSprite(this.spriteNormal, this.context);
+        break;
     }
   }
 
@@ -116,50 +169,4 @@ export class Button {
       }
     }
   }
-
-  /**
-   * Registers callback for hover event over the button
-   * @param callback
-   */
-  onHover(callback: () => void) {
-    this.hoverCallback = callback;
-  }
-
-  /**
-   * Registers callback for button press
-   * @param callback
-   */
-  onPress(callback: () => void) {
-    this.pressCallback = callback;
-  }
-
-  /**
-   * Register callback when button was released after press
-   * @param callback
-   */
-  onUp(callback: () => void) {
-    this.upCallback = callback;
-  }
-
-  /**
-   * Register callback of button click
-   * @param callback
-   */
-  onClick(callback: () => void) {
-    this.clickCallback = callback;
-  }
-
-  draw(): void {
-    switch (this.buttonState) {
-      case ButtonStateEnum.hover:
-        drawSprite(this.spriteHover, this.context);
-        break;
-      case ButtonStateEnum.down:
-        drawSprite(this.spritePress, this.context);
-        break;
-      default:
-        drawSprite(this.spriteNormal, this.context);
-        break;
-    }
-  };
 }

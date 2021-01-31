@@ -1,13 +1,11 @@
-
 import resources from '@src/resources';
 import { BottomClouds } from "@src/objects/bottom-clouds";
 import { Button } from "@src/objects/button";
-import { Plane } from "@src/objects/plane";
+import { Plane, PLANE_POSITIONS } from "@src/objects/plane";
 import { GameWorld } from "@src/objects/world";
 import { Titles } from '@src/objects/titles';
 import { GameSceneEnum, IGameScene, IPoint, MouseEventTypeEnum, PlaneStatesEnum } from '@src/models';
 import {Clouds} from '@src/objects/clouds';
-
 export class TitleScreen implements IGameScene {
 
   name: GameSceneEnum.TitleScreen;
@@ -28,6 +26,7 @@ export class TitleScreen implements IGameScene {
     this.titles = new Titles(this.context);
     this.plane = new Plane(this.context);
     this.plane.planeState = PlaneStatesEnum.flyUp;
+    this.plane.setPosition(PLANE_POSITIONS.screenCenter);
     this.startButton = new Button(
       this.context,
       resources.startButtonSprites[0],
