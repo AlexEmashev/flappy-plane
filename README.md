@@ -6,7 +6,7 @@
 
  ## Demo
 
- Please see [demo page](https://alexemashev.github.io/flappy-plane/).
+ Please see [demo page](https://alexemashev.github.io/flappy-plane/index.html).
 
  ![Demo](public/flappy_plane_demo.gif)
 
